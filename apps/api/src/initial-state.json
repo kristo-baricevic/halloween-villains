@@ -1,0 +1,158 @@
+{
+  "round": 0,
+  "status": "setup",
+  "rounds": [
+    [
+      {
+        "id": "w0",
+        "sources": [
+          "v11",
+          "v15"
+        ]
+      },
+      {
+        "id": "w1",
+        "sources": [
+          "v19",
+          "v21"
+        ]
+      },
+      {
+        "id": "w2",
+        "sources": [
+          "v1",
+          "v6"
+        ]
+      },
+      {
+        "id": "w3",
+        "sources": [
+          "v17",
+          "v9"
+        ]
+      },
+      {
+        "id": "w4",
+        "sources": [
+          "v13",
+          "v4"
+        ]
+      }
+    ],
+    [
+      {
+        "id": "r1m0",
+        "sources": [
+          "v16",
+          "@w4"
+        ]
+      },
+      {
+        "id": "r1m1",
+        "sources": [
+          "v14",
+          "v7"
+        ]
+      },
+      {
+        "id": "r1m2",
+        "sources": [
+          "v3",
+          "@w0"
+        ]
+      },
+      {
+        "id": "r1m3",
+        "sources": [
+          "v8",
+          "@w1"
+        ]
+      },
+      {
+        "id": "r1m4",
+        "sources": [
+          "v2",
+          "v20"
+        ]
+      },
+      {
+        "id": "r1m5",
+        "sources": [
+          "v18",
+          "@w2"
+        ]
+      },
+      {
+        "id": "r1m6",
+        "sources": [
+          "v5",
+          "v12"
+        ]
+      },
+      {
+        "id": "r1m7",
+        "sources": [
+          "v10",
+          "@w3"
+        ]
+      }
+    ],
+    [
+      {
+        "id": "r2m0",
+        "sources": [
+          "@r1m0",
+          "@r1m1"
+        ]
+      },
+      {
+        "id": "r2m1",
+        "sources": [
+          "@r1m2",
+          "@r1m3"
+        ]
+      },
+      {
+        "id": "r2m2",
+        "sources": [
+          "@r1m4",
+          "@r1m5"
+        ]
+      },
+      {
+        "id": "r2m3",
+        "sources": [
+          "@r1m6",
+          "@r1m7"
+        ]
+      }
+    ],
+    [
+      {
+        "id": "r3m0",
+        "sources": [
+          "@r2m0",
+          "@r2m1"
+        ]
+      },
+      {
+        "id": "r3m1",
+        "sources": [
+          "@r2m2",
+          "@r2m3"
+        ]
+      }
+    ],
+    [
+      {
+        "id": "r4m0",
+        "sources": [
+          "@r3m0",
+          "@r3m1"
+        ]
+      }
+    ]
+  ],
+  "winners": {},
+  "revision": 1
+}

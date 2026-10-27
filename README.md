@@ -1,6 +1,6 @@
 # Halloween Sweet Sixteen
 
-A Halloween villain tournament with 21 contenders, individual voting, a full bracket, and host controls. Built as a Node.js npm-workspaces monorepo with no third-party runtime dependencies.
+A Halloween villain tournament with 21 contenders, individual voting, a full bracket, and host controls. Built as a Node.js npm-workspaces monorepo with SQLite for local use and PostgreSQL for Vercel.
 
 ## Packages
 
@@ -67,3 +67,15 @@ docker run --rm -p 8765:8765 -v halloween-data:/app/data halloween-villains
 Deploy one instance, mount a persistent volume at `/app/data`, and set `COOKIE_SECURE=true` behind the host's HTTPS proxy. Use `/healthz` for health checks. Retrieve `host.key` from the private volume and open `https://YOUR_HOST/host#YOUR_HOST_KEY` once to unlock host controls. The fragment is removed from the address bar after use. Never put the key in the repository or share the host link.
 
 Neither creating this repository nor running CI deploys a public voting service. The Docker deployment configuration is supplied but must be tested on the chosen host.
+
+## Vercel deployment
+
+Import this repository with the **Other** framework preset and the repository root as the Root Directory. The checked-in `vercel.json` serves the frontend and images statically and sends API requests to `api/index.js`.
+
+Connect a Neon PostgreSQL database on its Free plan through the project's Storage tab. Set `DATABASE_URL` and a private, random `HOST_KEY` (at least 32 characters) for **Production**. Never expose either variable with a public prefix. Vercel requests use secure cookies automatically.
+
+PostgreSQL creates the tables on first API use and seeds the existing 21-person draw from `apps/api/src/initial-state.json`. Subsequent deployments preserve votes and bracket progress. All ballot writes and host transitions lock the tournament row within a transaction to prevent a close-round race. State reads use a consistent snapshot. Preview deployments should use a separate database and host key.
+
+The public UI intentionally omits host controls. Round transitions still require the private host API; publishing does not open voting or advance a round.
+
+Local development continues to use SQLite. To run the HTTP test suite against PostgreSQL as well, supply `TEST_DATABASE_URL` pointing only to a disposable test database: the test suite resets its `halloween_state` and `halloween_votes` tables. Never use the event database for tests.

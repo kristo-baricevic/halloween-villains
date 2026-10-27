@@ -20,19 +20,25 @@ function identity(req,key) {
 }
 async function body(req) {
   if((req.headers['content-type']??'').split(';')[0]!=='application/json') throw new RequestError('JSON required.');
-  const chunks=[];let size=0;
-  for await(const chunk of req) {
-    size+=chunk.length;
-    if(size>4096) throw new RequestError('Request too large.',413);
-    chunks.push(chunk);
-  }
   let data;
-  try { data=JSON.parse(Buffer.concat(chunks).toString()); } catch { throw new RequestError('Invalid JSON.'); }
+  // Vercel may have already parsed the request before invoking the function.
+  if(req.body!==undefined) {
+    const raw=Buffer.isBuffer(req.body)?req.body.toString():typeof req.body==='string'?req.body:JSON.stringify(req.body);
+    if(Buffer.byteLength(raw)>4096) throw new RequestError('Request too large.',413);
+    try { data=JSON.parse(raw); } catch { throw new RequestError('Invalid JSON.'); }
+  } else {
+    const chunks=[];let size=0;
+    for await(const chunk of req) {
+      size+=chunk.length;
+      if(size>4096) throw new RequestError('Request too large.',413);
+      chunks.push(chunk);
+    }
+    try { data=JSON.parse(Buffer.concat(chunks).toString()); } catch { throw new RequestError('Invalid JSON.'); }
+  }
   if(!data||typeof data!=='object'||Array.isArray(data)) throw new RequestError('Invalid request.');
   return data;
 }
-export function createApplication({dataDir,secureCookies=false}) {
-  const tournament=new Tournament(dataDir);
+export function createApplication({dataDir,secureCookies=false,tournament=new Tournament(dataDir)}) {
   const files=new Map([
     ['/', ['index.html','text/html']],['/host',['index.html','text/html']],
     ['/app.js',['app.js','text/javascript']],['/style.css',['style.css','text/css']],
@@ -44,7 +50,7 @@ export function createApplication({dataDir,secureCookies=false}) {
     const mime={jpg:'image/jpeg',png:'image/png',webp:'image/webp'}[image.path.split('.').pop()];
     files.set(image.path,{body:readFileSync(join(publicDirectory,image.path.slice(1))),mime});
   }
-  const server=createServer(async(req,res)=>{
+  const handler=async(req,res)=>{
     const {voter,cookie,host}=identity(req,tournament.key);
     const send=(status,content,mime='application/json')=>{
       const payload=Buffer.isBuffer(content)?content:Buffer.from(content);
@@ -60,12 +66,12 @@ export function createApplication({dataDir,secureCookies=false}) {
       const path=new URL(req.url,'http://localhost').pathname;
       if(req.method==='GET') {
         if(path==='/healthz') return send(200,JSON.stringify({ok:true}));
-        if(path==='/api/state') return send(200,JSON.stringify(tournament.view(voter,host)));
+        if(path==='/api/state') return send(200,JSON.stringify(await tournament.view(voter,host)));
         const file=files.get(path);
         if(file) return send(200,file.body,file.mime);
       }
       if(req.method==='POST' && path==='/api/action') {
-        tournament.action(await body(req),voter,host);
+        await tournament.action(await body(req),voter,host);
         return send(200,JSON.stringify({ok:true}));
       }
       send(404,JSON.stringify({error:'Not found'}));
@@ -73,7 +79,8 @@ export function createApplication({dataDir,secureCookies=false}) {
       if(!(error instanceof RequestError)) console.error('Request failed:',error.message);
       if(!res.headersSent) send(error instanceof RequestError?error.status:500,JSON.stringify({error:error instanceof RequestError?error.message:'Could not save. Please try again.'}));
     }
-  });
+  };
+  const server=createServer(handler);
   server.requestTimeout=15000;
-  return {server,tournament};
+  return {server,tournament,handler};
 }

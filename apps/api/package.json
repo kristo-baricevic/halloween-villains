@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@halloween/tournament": "*",
-    "@halloween/web": "*"
+    "@halloween/web": "*",
+    "pg": "^8.23.1"
   }
 }

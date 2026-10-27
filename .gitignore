@@ -9,3 +9,5 @@ host-url.txt
 *.log
 .DS_Store
 coverage/
+
+.vercel/

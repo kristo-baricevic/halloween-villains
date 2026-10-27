@@ -4,18 +4,49 @@ import {mkdtempSync,rmSync,writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {once} from 'node:events';
+import {createServer} from 'node:http';
 import {DatabaseSync} from 'node:sqlite';
 import {createHmac,createHash} from 'node:crypto';
 import {fresh,roster} from '@halloween/tournament';
 import {Tournament} from '../src/store.js';
 import {createApplication} from '../src/app.js';
+import {PostgresTournament} from '../src/postgres-store.js';
 
-test('HTTP voting, privacy, auth, concurrent ballots, and persistence',async(t)=>{
+test('Vercel pre-parsed JSON bodies retain validation and await storage',async(t)=>{
+  const seen=[];
+  const {handler}=createApplication({secureCookies:true,tournament:{
+    key:'test-only-host-key-at-least-32-characters',
+    async action(data) {await new Promise(r=>setTimeout(r,10));seen.push(data);},
+  }});
+  const server=createServer(async(req,res)=>{
+    const parts=[];for await(const part of req) parts.push(part);
+    req.body=JSON.parse(Buffer.concat(parts).toString());
+    await handler(req,res);
+  });
+  server.listen(0,'127.0.0.1');await once(server,'listening');
+  t.after(()=>new Promise(r=>server.close(r)));
+  const post=data=>fetch(`http://127.0.0.1:${server.address().port}/api/action`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+  const data={action:'vote',match:'w0',choice:'v1'};
+  const response=await post(data);
+  assert.equal(response.status,200);assert.deepEqual(seen,[data]);
+  assert.match(response.headers.get('set-cookie'),/; Secure/);
+  assert.equal((await post(null)).status,400);
+  assert.equal((await post({padding:'x'.repeat(4097)})).status,413);
+  assert.equal(seen.length,1);
+});
+
+for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[])]) test(`${backend}: HTTP voting, privacy, auth, concurrent ballots, and persistence`,async(t)=>{
   const dataDir=mkdtempSync(join(tmpdir(),'villain-api-'));
-  const {server,tournament}=createApplication({dataDir});
+  const pgStore=backend==='postgres'?new PostgresTournament({connectionString:process.env.TEST_DATABASE_URL,key:'test-only-host-key-at-least-32-characters'}):undefined;
+  if(pgStore) {
+    await pgStore.initialize();
+    await pgStore.pool.query('TRUNCATE halloween_votes');
+    await pgStore.pool.query('UPDATE halloween_state SET body=$1 WHERE id=1',[JSON.stringify(fresh())]);
+  }
+  const {server,tournament}=createApplication({dataDir,...(pgStore?{tournament:pgStore}:{})});
   server.listen(0,'127.0.0.1');await once(server,'listening');
   const base=`http://127.0.0.1:${server.address().port}`;
-  t.after(async()=>{await new Promise(resolve=>server.close(resolve));tournament.close();rmSync(dataDir,{recursive:true,force:true});});
+  t.after(async()=>{await new Promise(resolve=>server.close(resolve));await tournament.close();rmSync(dataDir,{recursive:true,force:true});});
   const hostHeaders={Authorization:`Bearer ${tournament.key}`};
   const get=async(headers={})=>{const r=await fetch(base+'/api/state',{headers});return {response:r,state:await r.json()};};
   const post=async(data,headers={})=>{
@@ -36,9 +67,9 @@ test('HTTP voting, privacy, auth, concurrent ballots, and persistence',async(t)=
   }
   const cookie=initial.response.headers.get('set-cookie').split(';')[0];
   assert.ok(initial.response.headers.get('set-cookie').includes('HttpOnly'));
-  assert.equal((await post({action:'open',revision:0})).status,403);
-  assert.equal((await post({action:'open',revision:0},hostHeaders)).status,200);
-  assert.equal((await post({action:'close',revision:0},hostHeaders)).status,400);
+  assert.equal((await post({action:'open',revision:initial.state.revision})).status,403);
+  assert.equal((await post({action:'open',revision:initial.state.revision},hostHeaders)).status,200);
+  assert.equal((await post({action:'close',revision:initial.state.revision},hostHeaders)).status,400);
   assert.equal((await post({action:'vote',match:m.id,choice:a},{Cookie:cookie})).status,200);
   assert.equal((await post({action:'vote',match:m.id,choice:b},{Cookie:cookie})).status,200);
   const publicState=(await get({Cookie:cookie})).state;
@@ -54,8 +85,8 @@ test('HTTP voting, privacy, auth, concurrent ballots, and persistence',async(t)=
   for(const path of ['/data/host.key','/../host.key','/server.py','/package.json']) assert.equal((await fetch(base+path)).status,404);
   const malformed=await fetch(base+'/api/action',{method:'POST',headers:{'Content-Type':'application/json'},body:'null'});
   assert.equal(malformed.status,400);
-  const reopened=new Tournament(dataDir);
-  assert.equal(reopened.view('other',true).winners[m.id],a);reopened.close();
+  const reopened=backend==='postgres'?new PostgresTournament({connectionString:process.env.TEST_DATABASE_URL,key:tournament.key}):new Tournament(dataDir);
+  assert.equal((await reopened.view('other',true)).winners[m.id],a);await reopened.close();
 });
 
 test('existing Python schema, host key and signed browser cookies remain compatible',async(t)=>{
