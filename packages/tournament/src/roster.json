@@ -3,126 +3,504 @@
     "id": "v1",
     "name": "Ichabod Crane (The Headless Horseman)",
     "franchise": "\"The Legend of Sleepy Hollow\" story by Washington Irving",
-    "pitch": "The story of the Headless Horseman and the character itself really embodies Halloween. Spooky horseman with a pumpkin for a head? In New England? Come on now..."
+    "pitch": "The story of the Headless Horseman and the character itself really embodies Halloween. Spooky horseman with a pumpkin for a head? In New England? Come on now...",
+    "stats": {
+      "strength": 8,
+      "endurance": 9,
+      "creativity": 6,
+      "evil": 7,
+      "supernatural": 9,
+      "cunning": 5
+    },
+    "moves": [
+      {
+        "name": "Pumpkin Catapult",
+        "description": "Launches a flaming jack-o’-lantern across the arena. A seasonal projectile with absolutely no return policy."
+      },
+      {
+        "name": "Midnight Gallop",
+        "description": "Charges through the fog on a spectral horse, knocking opponents off balance before vanishing into the trees."
+      }
+    ]
   },
   {
     "id": "v2",
     "name": "Hannibal Lecter",
     "franchise": "Silence of the Lambs, Red Dragon, Manhunter films and books.",
-    "pitch": "Super creepy, and played brilliantly by the likes of Anthony Hopkins, Brian Cox, and Mads Mikkelsen. Lecter gets inside the audiences head, and really defines a Halloween horror experience. "
+    "pitch": "Super creepy, and played brilliantly by the likes of Anthony Hopkins, Brian Cox, and Mads Mikkelsen. Lecter gets inside the audiences head, and really defines a Halloween horror experience. ",
+    "stats": {
+      "strength": 5,
+      "endurance": 6,
+      "creativity": 9,
+      "evil": 10,
+      "supernatural": 1,
+      "cunning": 10
+    },
+    "moves": [
+      {
+        "name": "Dinner Invitation",
+        "description": "Sets an impeccably polite trap. The opponent loses their guard while trying to remember which fork to use."
+      },
+      {
+        "name": "Mind Palace",
+        "description": "Reads the opponent’s next move and answers with a perfectly timed psychological counterattack."
+      }
+    ]
   },
   {
     "id": "v3",
     "name": "The ShapeShifter from \"The Thing\"",
     "franchise": "The Thing",
-    "pitch": "It can become any one with near perfect accuracy. Nothing scarier than waking up next to an exact copy of yourself. Are you sure you're the real one? Even if you are, who will believe you?"
+    "pitch": "It can become any one with near perfect accuracy. Nothing scarier than waking up next to an exact copy of yourself. Are you sure you're the real one? Even if you are, who will believe you?",
+    "stats": {
+      "strength": 9,
+      "endurance": 10,
+      "creativity": 10,
+      "evil": 9,
+      "supernatural": 8,
+      "cunning": 9
+    },
+    "moves": [
+      {
+        "name": "Perfect Copy",
+        "description": "Mimics the opponent’s appearance and fighting stance, turning every teammate into a potential suspect."
+      },
+      {
+        "name": "Biomass Breakout",
+        "description": "Unfolds into an impossible tangle of limbs. A close-range surprise with very poor personal boundaries."
+      }
+    ]
   },
   {
     "id": "v4",
     "name": "The Jeans from the movie Slaxx",
     "franchise": "Slaxx the Canadian horror-comedy",
-    "pitch": "A pair of jeans possessed by the spirit of a child worker who died picking the cotton they're made from. It strangles it's victims. You'll never want to wear unethically sourced denim again! 👖"
+    "pitch": "A pair of jeans possessed by the spirit of a child worker who died picking the cotton they're made from. It strangles it's victims. You'll never want to wear unethically sourced denim again! 👖",
+    "stats": {
+      "strength": 6,
+      "endurance": 8,
+      "creativity": 9,
+      "evil": 7,
+      "supernatural": 8,
+      "cunning": 5
+    },
+    "moves": [
+      {
+        "name": "Denim Death Grip",
+        "description": "Wraps both trouser legs around the target and squeezes. Somehow still advertised as a relaxed fit."
+      },
+      {
+        "name": "Runway Rampage",
+        "description": "Skates across the shop floor in a spinning denim rush. Fast fashion gets a very literal combo attack."
+      }
+    ]
   },
   {
     "id": "v5",
     "name": "Michael Myers",
     "franchise": "Halloween",
-    "pitch": "The mask. The music. The fact that he never runs and still catches everyone. Michael Myers makes a quiet suburban street terrifying, and Halloween is literally his franchise. Give the man his crown."
+    "pitch": "The mask. The music. The fact that he never runs and still catches everyone. Michael Myers makes a quiet suburban street terrifying, and Halloween is literally his franchise. Give the man his crown.",
+    "stats": {
+      "strength": 9,
+      "endurance": 10,
+      "creativity": 3,
+      "evil": 10,
+      "supernatural": 6,
+      "cunning": 6
+    },
+    "moves": [
+      {
+        "name": "Suburban Stalk",
+        "description": "Advances at walking speed yet somehow closes every gap. Sprinting opponents waste stamina in disbelief."
+      },
+      {
+        "name": "Final Frame",
+        "description": "Absorbs a finishing blow, disappears from view, and returns when the opponent looks away."
+      }
+    ]
   },
   {
     "id": "v6",
     "name": "Ursula",
     "franchise": "The Little Mermaid",
-    "pitch": "Ursula turns every scene into a spectacle: sharp, funny, ambitious, and backed by one of Disney’s best villain songs. She makes a dangerous deal feel irresistible, then nearly wins. That blend of theatrical flair and real menace earns her the crown."
+    "pitch": "Ursula turns every scene into a spectacle: sharp, funny, ambitious, and backed by one of Disney’s best villain songs. She makes a dangerous deal feel irresistible, then nearly wins. That blend of theatrical flair and real menace earns her the crown.",
+    "stats": {
+      "strength": 8,
+      "endurance": 8,
+      "creativity": 9,
+      "evil": 9,
+      "supernatural": 10,
+      "cunning": 10
+    },
+    "moves": [
+      {
+        "name": "Fine Print",
+        "description": "Offers a tempting power-up with a disastrous hidden clause. The opponent’s strongest ability becomes collateral."
+      },
+      {
+        "name": "Tidal Tantrum",
+        "description": "Whips up a towering whirlpool and sends the entire arena spinning to her dramatic finale."
+      }
+    ]
   },
   {
     "id": "v7",
     "name": "Chucky",
     "franchise": "Child's Play",
-    "pitch": "Dolls are possessed and alive y'all. Stay awake with one eye open (they watch while you sleep). \n\nFun fact, if your babysitter lets you watch Child's Play at 6 years old, you will insist on throwing away every toy doll you were given (only legos are safe), and you will have a life long fear of dolls."
+    "pitch": "Dolls are possessed and alive y'all. Stay awake with one eye open (they watch while you sleep). \n\nFun fact, if your babysitter lets you watch Child's Play at 6 years old, you will insist on throwing away every toy doll you were given (only legos are safe), and you will have a life long fear of dolls.",
+    "stats": {
+      "strength": 4,
+      "endurance": 8,
+      "creativity": 8,
+      "evil": 9,
+      "supernatural": 8,
+      "cunning": 8
+    },
+    "moves": [
+      {
+        "name": "Toybox Ambush",
+        "description": "Plays lifeless until the opponent steps close, then springs out with a tiny but thoroughly unpleasant combo."
+      },
+      {
+        "name": "Batteries Not Included",
+        "description": "Shrugs off a seemingly decisive hit and comes back talking trash. The warranty does not cover this."
+      }
+    ]
   },
   {
     "id": "v8",
     "name": "Beetlejuice",
     "franchise": "Beetlejuice",
-    "pitch": "Overall kookiness + proximity to Catherine O'Hara "
+    "pitch": "Overall kookiness + proximity to Catherine O'Hara ",
+    "stats": {
+      "strength": 7,
+      "endurance": 9,
+      "creativity": 10,
+      "evil": 7,
+      "supernatural": 10,
+      "cunning": 8
+    },
+    "moves": [
+      {
+        "name": "Say It Thrice",
+        "description": "Builds power with each repetition of his name, then bursts into the arena with a wildly excessive entrance."
+      },
+      {
+        "name": "Bio-Exorcism",
+        "description": "Rearranges the scenery into a ridiculous haunted obstacle course. Gravity is invited but not consulted."
+      }
+    ]
   },
   {
     "id": "v9",
     "name": "The Mothman",
     "franchise": "The Mothman Prophecies film / folklore ",
-    "pitch": "Scariest cryptid of all time"
+    "pitch": "Scariest cryptid of all time",
+    "stats": {
+      "strength": 7,
+      "endurance": 8,
+      "creativity": 7,
+      "evil": 4,
+      "supernatural": 9,
+      "cunning": 7
+    },
+    "moves": [
+      {
+        "name": "Red-Eye Warning",
+        "description": "Fixes the opponent with an ominous stare, rattling their timing with the feeling that something is about to happen."
+      },
+      {
+        "name": "Bridge-Side Glide",
+        "description": "Sweeps overhead in a silent aerial pass, leaving a disorienting gust and several unanswered questions."
+      }
+    ]
   },
   {
     "id": "v10",
     "name": "The Beast",
     "franchise": "Over the Garden Wall",
-    "pitch": "from the wiki: \"He uses psychological manipulation, umbrakinesis (darkness control), and haunting opera singing\""
+    "pitch": "from the wiki: \"He uses psychological manipulation, umbrakinesis (darkness control), and haunting opera singing\"",
+    "stats": {
+      "strength": 7,
+      "endurance": 9,
+      "creativity": 9,
+      "evil": 9,
+      "supernatural": 10,
+      "cunning": 10
+    },
+    "moves": [
+      {
+        "name": "Lantern Bargain",
+        "description": "Offers a way out of the darkness, then turns the promise into another reason to keep wandering."
+      },
+      {
+        "name": "Blackwood Aria",
+        "description": "Sends a haunting note through the trees. Shadows close in while the opponent struggles to find the path."
+      }
+    ]
   },
   {
     "id": "v11",
     "name": "Mel and Charlie Jones (Coraline's Parents)",
     "franchise": "Coraline",
-    "pitch": "The Beldam is just doing what monsters do. The real villains are Coraline's parents. Their constant emotional neglect and refusal to pay attention to their daughter created the exact vulnerability the monster needed to trap her. They are the true catalysts for the horror."
+    "pitch": "The Beldam is just doing what monsters do. The real villains are Coraline's parents. Their constant emotional neglect and refusal to pay attention to their daughter created the exact vulnerability the monster needed to trap her. They are the true catalysts for the horror.",
+    "stats": {
+      "strength": 3,
+      "endurance": 5,
+      "creativity": 4,
+      "evil": 4,
+      "supernatural": 1,
+      "cunning": 6
+    },
+    "moves": [
+      {
+        "name": "Not Now, Coraline",
+        "description": "Deflects an incoming plea with a distracted wave. The opponent’s dramatic monologue fails to connect."
+      },
+      {
+        "name": "Deadline Double-Team",
+        "description": "Both parents bury themselves in work, creating an impenetrable wall of keyboards and unfinished conversations."
+      }
+    ]
   },
   {
     "id": "v12",
     "name": "Seymour Krelborn",
     "franchise": "Little Shop of Horrors",
-    "pitch": "Audrey II gets the credit as the monster, but Seymour is the enabler. To get fame, wealth, and the girl, he actively chooses to chop up bodies and feed humans to an alien plant instead of just going back to being an ordinary florist. He is the true villain."
+    "pitch": "Audrey II gets the credit as the monster, but Seymour is the enabler. To get fame, wealth, and the girl, he actively chooses to chop up bodies and feed humans to an alien plant instead of just going back to being an ordinary florist. He is the true villain.",
+    "stats": {
+      "strength": 4,
+      "endurance": 5,
+      "creativity": 7,
+      "evil": 7,
+      "supernatural": 1,
+      "cunning": 7
+    },
+    "moves": [
+      {
+        "name": "Feed Me Combo",
+        "description": "Calls in a very hungry plant assist. What began as a small gardening problem becomes everyone’s problem."
+      },
+      {
+        "name": "Suddenly, Cover-Up",
+        "description": "Distracts the opponent with an innocent florist routine while sweeping the latest terrible decision out of sight."
+      }
+    ]
   },
   {
     "id": "v13",
     "name": "Pennywise the Clown",
     "franchise": "It, from Stephen King",
-    "pitch": "Made us see Ronald McDonald in a whole new light"
+    "pitch": "Made us see Ronald McDonald in a whole new light",
+    "stats": {
+      "strength": 9,
+      "endurance": 9,
+      "creativity": 10,
+      "evil": 10,
+      "supernatural": 10,
+      "cunning": 9
+    },
+    "moves": [
+      {
+        "name": "Fear Buffet",
+        "description": "Transforms into a theatrical version of the opponent’s worst fear, scaling the scare to their imagination."
+      },
+      {
+        "name": "Storm-Drain Surprise",
+        "description": "Baits the opponent with a bright balloon, then reappears from an unexpected corner of the arena."
+      }
+    ]
   },
   {
     "id": "v14",
     "name": "Freddy Kruger",
     "franchise": "Nightmare on Elm Street",
-    "pitch": "He stalks and kills your in your dreams. The perfect formula for years of nightmares. "
+    "pitch": "He stalks and kills your in your dreams. The perfect formula for years of nightmares. ",
+    "stats": {
+      "strength": 7,
+      "endurance": 9,
+      "creativity": 10,
+      "evil": 10,
+      "supernatural": 10,
+      "cunning": 9
+    },
+    "moves": [
+      {
+        "name": "Dream Rewrite",
+        "description": "Turns the arena into a nightmare tailored to the opponent. The floor plan is no longer accepting complaints."
+      },
+      {
+        "name": "Bedtime Slash",
+        "description": "Waits for the opponent’s concentration to slip, then strikes with a razor-gloved dream combo."
+      }
+    ]
   },
   {
     "id": "v15",
     "name": "Jason Voorhees",
     "franchise": "Friday the 13th",
-    "pitch": "12 films. That's a lot of murders."
+    "pitch": "12 films. That's a lot of murders.",
+    "stats": {
+      "strength": 10,
+      "endurance": 10,
+      "creativity": 4,
+      "evil": 9,
+      "supernatural": 8,
+      "cunning": 5
+    },
+    "moves": [
+      {
+        "name": "Campground Cleave",
+        "description": "Delivers a heavy, deliberate strike that makes flimsy cover feel like a very optimistic choice."
+      },
+      {
+        "name": "Lake Return",
+        "description": "Drops out of sight and rises again from the water. The opponent discovers the fight was only on intermission."
+      }
+    ]
   },
   {
     "id": "v16",
     "name": "The Babadook",
     "franchise": "The Babadook",
-    "pitch": "terrifying basement dwelling monster or haunting allegory about grief and trauma?  you decide (note: i cannot watch scary movies so everything i know about this film comes from wikipedia and instagram reels)"
+    "pitch": "terrifying basement dwelling monster or haunting allegory about grief and trauma?  you decide (note: i cannot watch scary movies so everything i know about this film comes from wikipedia and instagram reels)",
+    "stats": {
+      "strength": 7,
+      "endurance": 9,
+      "creativity": 9,
+      "evil": 7,
+      "supernatural": 10,
+      "cunning": 8
+    },
+    "moves": [
+      {
+        "name": "Pop-Up Panic",
+        "description": "Unfolds from a storybook silhouette and stretches across the arena, turning a quiet page into a jump scare."
+      },
+      {
+        "name": "Basement Encore",
+        "description": "Retreats into the dark and returns with renewed pressure. Ignoring the problem only adds another verse."
+      }
+    ]
   },
   {
     "id": "v17",
     "name": "Vecna",
     "franchise": "Stranger Things",
-    "pitch": "a classic human-turned-monster origin story, an army of Demogorgons, and the power to make me scared of every flickering light in my apartment :)"
+    "pitch": "a classic human-turned-monster origin story, an army of Demogorgons, and the power to make me scared of every flickering light in my apartment :)",
+    "stats": {
+      "strength": 8,
+      "endurance": 9,
+      "creativity": 9,
+      "evil": 10,
+      "supernatural": 10,
+      "cunning": 10
+    },
+    "moves": [
+      {
+        "name": "Grandfather Chime",
+        "description": "Marks the opponent with an ominous clock cue, counting down to a powerful psychic strike."
+      },
+      {
+        "name": "Upside-Down Crush",
+        "description": "Lifts the target with telekinetic force while vines take control of the battlefield."
+      }
+    ]
   },
   {
     "id": "v18",
     "name": "Nikki Freeman",
     "franchise": "Obsession (movie)",
-    "pitch": "she brings the kind of horror that feels a little too real and makes you uncomfortable in the worst way posible…and don’t even get me started on that horrifying smile 😭"
+    "pitch": "she brings the kind of horror that feels a little too real and makes you uncomfortable in the worst way posible…and don’t even get me started on that horrifying smile 😭",
+    "stats": {
+      "strength": 5,
+      "endurance": 7,
+      "creativity": 8,
+      "evil": 8,
+      "supernatural": 6,
+      "cunning": 8
+    },
+    "moves": [
+      {
+        "name": "Unbroken Smile",
+        "description": "Holds an unnerving smile just a little too long, disrupting the opponent’s focus before they can commit to an attack."
+      },
+      {
+        "name": "Too Close",
+        "description": "Closes the distance with relentless attention. Every attempted retreat becomes another uncomfortable encounter."
+      }
+    ]
   },
   {
     "id": "v19",
     "name": "A Murder (otherwise known as a flock of crows)",
     "franchise": "The Birds (film), 1963 Hitchcock",
-    "pitch": "crows and ravens have always been associated with Halloween, horror, and lore as symbols of death and dark omens. Also used as an ominous creature by E.A. Poe "
+    "pitch": "crows and ravens have always been associated with Halloween, horror, and lore as symbols of death and dark omens. Also used as an ominous creature by E.A. Poe ",
+    "stats": {
+      "strength": 6,
+      "endurance": 8,
+      "creativity": 7,
+      "evil": 6,
+      "supernatural": 2,
+      "cunning": 8
+    },
+    "moves": [
+      {
+        "name": "Murder Formation",
+        "description": "The flock dives in coordinated waves, turning one easy-to-dodge bird into a screen full of trouble."
+      },
+      {
+        "name": "Playground Omen",
+        "description": "Quietly gathers behind the opponent until the arena is crowded with beaks, wings, and very bad possibilities."
+      }
+    ]
   },
   {
     "id": "v20",
     "name": "Annabelle",
     "franchise": "\"The Conjuring\" series, including \"Annabelle\"",
-    "pitch": "A porcelain doll, based on a real Raggedy Ann doll, deemed possessed; moved itself and objects; supposedly attacked a person and left scratches: investigated and ultimately kept locked in the basement of paranormal investigators, the Warrens.  It now resides in their haunted museum, in Salem, MA."
+    "pitch": "A porcelain doll, based on a real Raggedy Ann doll, deemed possessed; moved itself and objects; supposedly attacked a person and left scratches: investigated and ultimately kept locked in the basement of paranormal investigators, the Warrens.  It now resides in their haunted museum, in Salem, MA.",
+    "stats": {
+      "strength": 3,
+      "endurance": 10,
+      "creativity": 8,
+      "evil": 9,
+      "supernatural": 10,
+      "cunning": 9
+    },
+    "moves": [
+      {
+        "name": "Shelf Shift",
+        "description": "Moves only when nobody is watching, making distance and locked doors feel suspiciously unreliable."
+      },
+      {
+        "name": "Porcelain Proxy",
+        "description": "Sits perfectly still while a sinister presence does the attacking. Excellent energy efficiency; terrible houseguest."
+      }
+    ]
   },
   {
     "id": "v21",
     "name": "Thing",
     "franchise": "Addams Family",
-    "pitch": "It's a hand about the rest! Give it a hand. You got a hand it to em! Hand me that hat! Hand it over, I said! I could do this all day, but I have to go hand out candy."
+    "pitch": "It's a hand about the rest! Give it a hand. You got a hand it to em! Hand me that hat! Hand it over, I said! I could do this all day, but I have to go hand out candy.",
+    "stats": {
+      "strength": 3,
+      "endurance": 7,
+      "creativity": 9,
+      "evil": 1,
+      "supernatural": 7,
+      "cunning": 9
+    },
+    "moves": [
+      {
+        "name": "Five-Finger Feint",
+        "description": "Distracts with a friendly wave, then slips past the opponent’s guard with astonishing fingerwork."
+      },
+      {
+        "name": "The Helping Hand",
+        "description": "Vaults across the arena to intercept an attack. A loyal assist move with a surprisingly firm grip."
+      }
+    ]
   }
 ]
