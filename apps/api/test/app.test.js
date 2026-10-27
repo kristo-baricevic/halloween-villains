@@ -43,14 +43,15 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
     await pgStore.pool.query('TRUNCATE halloween_votes, halloween_ballot_names');
     await pgStore.pool.query('UPDATE halloween_state SET body=$1 WHERE id=1',[JSON.stringify(fresh())]);
   }
-  const {server,tournament}=createApplication({dataDir,...(pgStore?{tournament:pgStore}:{})});
+  const {server,tournament}=createApplication({dataDir,adminPassword:'test-admin-password',...(pgStore?{tournament:pgStore}:{})});
   server.listen(0,'127.0.0.1');await once(server,'listening');
   const base=`http://127.0.0.1:${server.address().port}`;
   t.after(async()=>{await new Promise(resolve=>server.close(resolve));await tournament.close();rmSync(dataDir,{recursive:true,force:true});});
   assert.equal((await fetch(base+'/admin')).status,200);
   const login=async(password)=>fetch(base+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});
   assert.equal((await login('wrong')).status,401);
-  const loggedIn=await login(tournament.key);
+  assert.equal((await login(tournament.key)).status,401);
+  const loggedIn=await login('test-admin-password');
   assert.equal(loggedIn.status,200);
   const session=loggedIn.headers.getSetCookie().find(c=>c.startsWith('admin='));
   assert.match(session,/HttpOnly; SameSite=Strict/);

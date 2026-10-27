@@ -82,6 +82,6 @@ Local development continues to use SQLite. To run the HTTP test suite against Po
 
 ### Admin dashboard
 
-Visit `/admin` and log in with the host key as your admin password. Locally it is in your data directory's `host.key`; on Vercel it is the configured `HOST_KEY`. The password is exchanged for an HttpOnly, SameSite=Strict session cookie valid for eight hours (Secure in production). Log out clears the browser session. Rotating HOST_KEY invalidates existing sessions.
+Visit `/admin` and log in with `ADMIN_PASSWORD` when configured, otherwise the host key. Keep `HOST_KEY` unchanged when updating the login password so voter identities remain valid. Locally it is in your data directory's `host.key`; on Vercel it is the configured `HOST_KEY`. The password is exchanged for an HttpOnly, SameSite=Strict session cookie valid for eight hours (Secure in production). Log out clears the browser session. Rotating HOST_KEY invalidates existing sessions.
 
 The dashboard refreshes totals every three seconds. End a round to stop voting and calculate winners, select winners for tied matches, then advance to open the next round. The final round's advance button crowns the champion. Public voting remains separate; each ballot remains final.

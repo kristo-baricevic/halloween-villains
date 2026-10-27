@@ -43,7 +43,7 @@ async function body(req) {
   if(!data||typeof data!=='object'||Array.isArray(data)) throw new RequestError('Invalid request.');
   return data;
 }
-export function createApplication({dataDir,secureCookies=false,tournament=new Tournament(dataDir)}) {
+export function createApplication({dataDir,secureCookies=false,adminPassword=process.env.ADMIN_PASSWORD,tournament=new Tournament(dataDir)}) {
   const files=new Map([
     ['/', ['index.html','text/html']],['/host',['index.html','text/html']],
     ['/admin',['admin.html','text/html']],['/admin.js',['admin.js','text/javascript']],
@@ -82,7 +82,7 @@ export function createApplication({dataDir,secureCookies=false,tournament=new To
       if(req.method==='POST' && (path==='/api/login'||path==='/api/logout')) {
         const data=await body(req);
         if(path==='/api/login') {
-          if(typeof data.password!=='string'||!equal(data.password,tournament.key)) throw new RequestError('Incorrect admin password.',401);
+          if(typeof data.password!=='string'||!equal(data.password,adminPassword||tournament.key)) throw new RequestError('Incorrect admin password.',401);
           const expiry=String(Date.now()+8*60*60*1000);
           const signature=createHmac('sha256',tournament.key).update('admin:'+expiry).digest('hex');
           adminCookie=`admin=${expiry}.${signature}${cookieFlags}; Max-Age=28800`;
