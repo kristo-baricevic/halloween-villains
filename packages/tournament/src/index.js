@@ -84,3 +84,15 @@ export function transition(previous, data, counts) {
   state.revision=previous.revision+1;
   return state;
 }
+
+/** Validate the complete ballot before either storage adapter writes anything. */
+export function validateBallot(state,data) {
+  if(state.status!=='open') throw new RequestError('Voting is not open.');
+  if(data.revision!==state.revision) throw new RequestError('The bracket changed. Refresh and try again.');
+  const name=typeof data.name==='string'?data.name.trim().replace(/\s+/g,' '):'';
+  if(!name || name.length>100) throw new RequestError('Enter your name (up to 100 characters).');
+  const picks=data.picks;
+  const matches=state.rounds[state.round];
+  if(!picks || typeof picks!=='object' || Array.isArray(picks) || Object.keys(picks).length!==matches.length || matches.some(m=>!participants(state,m).includes(picks[m.id]))) throw new RequestError('Choose one villain in every matchup before submitting.');
+  return {name,normalizedName:name.normalize('NFKC').toLowerCase(),picks};
+}

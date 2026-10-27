@@ -32,9 +32,9 @@ If your workspace requires RTK, prefix these commands with `rtk proxy`.
 - Ten contenders play five wildcard matches. Their winners join eleven byes in the Sweet 16, followed by the Elite 8, Final Four, and championship.
 - Every shuffle preserves the paired-nomination rule. Shuffling is only available before voting starts.
 - The host opens and closes rounds. The higher vote count wins; ties (including 0–0) need an explicit host choice. The current closed round can be reopened before advancing.
-- One ballot per matchup per browser; voters can change their pick while voting is open. Counts remain hidden from voters until the round closes.
+- Picks stay local until the voter enters a name and submits the complete round ballot. Resubmitting from the same browser updates its votes while voting is open. Counts remain hidden from voters until the round closes.
 
-This is a casual poll, not identity-verified voting. Another browser or clearing cookies permits another ballot. No voter names or emails are collected. Nominations are a fixed snapshot; no Google credentials, nominator names, or submission timestamps are included.
+This is a casual poll, not identity-verified voting. Another browser or clearing cookies permits another ballot. A name is required when submitting a complete round ballot. Names, normalized names, and submission times are stored privately for later duplicate review; names are not verified identities. Emails are not collected. Nominations are a fixed snapshot; no Google credentials, nominator names, or submission timestamps are included.
 
 ## Character images
 
@@ -78,4 +78,4 @@ PostgreSQL creates the tables on first API use and seeds the existing 21-person 
 
 The public UI intentionally omits host controls. Round transitions still require the private host API; publishing does not open voting or advance a round.
 
-Local development continues to use SQLite. To run the HTTP test suite against PostgreSQL as well, supply `TEST_DATABASE_URL` pointing only to a disposable test database: the test suite resets its `halloween_state` and `halloween_votes` tables. Never use the event database for tests.
+Local development continues to use SQLite. To run the HTTP test suite against PostgreSQL as well, supply `TEST_DATABASE_URL` pointing only to a disposable test database: the test suite resets its `halloween_state`, `halloween_votes`, and `halloween_ballot_names` tables. Never use the event database for tests.

@@ -40,7 +40,7 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
   const pgStore=backend==='postgres'?new PostgresTournament({connectionString:process.env.TEST_DATABASE_URL,key:'test-only-host-key-at-least-32-characters'}):undefined;
   if(pgStore) {
     await pgStore.initialize();
-    await pgStore.pool.query('TRUNCATE halloween_votes');
+    await pgStore.pool.query('TRUNCATE halloween_votes, halloween_ballot_names');
     await pgStore.pool.query('UPDATE halloween_state SET body=$1 WHERE id=1',[JSON.stringify(fresh())]);
   }
   const {server,tournament}=createApplication({dataDir,...(pgStore?{tournament:pgStore}:{})});
@@ -50,6 +50,7 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
   const hostHeaders={Authorization:`Bearer ${tournament.key}`};
   const get=async(headers={})=>{const r=await fetch(base+'/api/state',{headers});return {response:r,state:await r.json()};};
   const post=async(data,headers={})=>{
+    if(data.action==='vote')data={action:'submit',name:'Test Voter',revision:initial.state.revision+1,picks:{...Object.fromEntries(initial.state.rounds[0].map(m=>[m.id,m.participants[0]])),[data.match]:data.choice}};
     const r=await fetch(base+'/api/action',{method:'POST',headers:{'Content-Type':'application/json',...headers},body:JSON.stringify(data)});
     return {status:r.status,body:await r.json()};
   };
@@ -72,7 +73,13 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
   assert.equal((await post({action:'close',revision:initial.state.revision},hostHeaders)).status,400);
   assert.equal((await post({action:'vote',match:m.id,choice:a},{Cookie:cookie})).status,200);
   assert.equal((await post({action:'vote',match:m.id,choice:b},{Cookie:cookie})).status,200);
+  const picks=Object.fromEntries(initial.state.rounds[0].map(m=>[m.id,m.participants[0]]));
+  for(const name of ['', '   ',null,'x'.repeat(101)]) assert.equal((await post({action:'submit',revision:initial.state.revision+1,name,picks},{Cookie:cookie})).status,400);
+  assert.equal((await post({action:'submit',revision:initial.state.revision+1,name:'Test',picks:{[m.id]:a}},{Cookie:cookie})).status,400);
+  assert.equal((await post({action:'submit',revision:initial.state.revision,name:'Test',picks},{Cookie:cookie})).status,400);
   const publicState=(await get({Cookie:cookie})).state;
+  assert.equal(publicState.myName,'Test Voter');
+  assert.equal((await get()).state.myName,'');
   assert.equal(publicState.rounds[0][0].myVote,b);assert.equal(publicState.rounds[0][0].counts,null);
   assert.deepEqual((await get(hostHeaders)).state.rounds[0][0].counts,{[b]:1});
   await Promise.all(Array.from({length:40},()=>post({action:'vote',match:m.id,choice:a})));

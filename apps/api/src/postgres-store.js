@@ -1,6 +1,6 @@
 import pg from 'pg';
 import { readFileSync } from 'node:fs';
-import { participants, roster, transition, RequestError } from '@halloween/tournament';
+import { participants, roster, transition, RequestError, validateBallot } from '@halloween/tournament';
 
 const initialState=JSON.parse(readFileSync(new URL('./initial-state.json',import.meta.url),'utf8'));
 
@@ -18,6 +18,7 @@ export class PostgresTournament {
       await client.query('SELECT pg_advisory_xact_lock(2131162026)');
       await client.query('CREATE TABLE IF NOT EXISTS halloween_state (id INTEGER PRIMARY KEY, body JSONB NOT NULL)');
       await client.query('CREATE TABLE IF NOT EXISTS halloween_votes (voter TEXT, match TEXT, choice TEXT NOT NULL, PRIMARY KEY(voter,match))');
+      await client.query('CREATE TABLE IF NOT EXISTS halloween_ballot_names (voter TEXT, round INTEGER, name TEXT NOT NULL, normalized_name TEXT NOT NULL, submitted_at TIMESTAMPTZ NOT NULL, PRIMARY KEY(voter,round))');
       await client.query('INSERT INTO halloween_state VALUES (1,$1) ON CONFLICT DO NOTHING',[JSON.stringify(initialState)]);
     }).catch(error=>{this.ready=null;throw error;});
     await this.ready;
@@ -50,7 +51,8 @@ export class PostgresTournament {
         match.counts=host || ri<state.round || (ri===state.round && ['closed','complete'].includes(state.status)) ? counts[match.id]??{} : null;
         match.myVote=mine[match.id]??null;
       }));
-      return {...state,roster,host};
+      const myName=(await client.query('SELECT name FROM halloween_ballot_names WHERE voter=$1 AND round=$2',[voter,state.round])).rows[0]?.name??'';
+      return {...state,roster,host,myName};
     },true);
   }
   async action(data,voter,host) {
@@ -59,15 +61,14 @@ export class PostgresTournament {
       // Every vote and host action locks the same row, so closing a round
       // cannot race an accepted ballot or calculate incomplete totals.
       let state=(await client.query('SELECT body FROM halloween_state WHERE id=1 FOR UPDATE')).rows[0].body;
-      if(data.action==='vote') {
-        const match=state.rounds[state.round].find(m=>m.id===data.match);
-        if(state.status!=='open'||!match) throw new RequestError('Voting is not open for this matchup.');
-        if(!participants(state,match).includes(data.choice)) throw new RequestError('Choose a contestant in this matchup.');
-        await client.query('INSERT INTO halloween_votes VALUES ($1,$2,$3) ON CONFLICT(voter,match) DO UPDATE SET choice=excluded.choice',[voter,match.id,data.choice]);
+      if(data.action==='submit') {
+        const ballot=validateBallot(state,data);
+        for(const [match,choice] of Object.entries(ballot.picks)) await client.query('INSERT INTO halloween_votes VALUES ($1,$2,$3) ON CONFLICT(voter,match) DO UPDATE SET choice=excluded.choice',[voter,match,choice]);
+        await client.query('INSERT INTO halloween_ballot_names VALUES ($1,$2,$3,$4,NOW()) ON CONFLICT(voter,round) DO UPDATE SET name=excluded.name,normalized_name=excluded.normalized_name,submitted_at=excluded.submitted_at',[voter,state.round,ballot.name,ballot.normalizedName]);
       } else {
         if(!host) throw new RequestError('Host access required.',403);
         state=transition(state,data,await this.tallies(client));
-        if(data.action==='shuffle') await client.query('DELETE FROM halloween_votes');
+        if(data.action==='shuffle') {await client.query('DELETE FROM halloween_votes');await client.query('DELETE FROM halloween_ballot_names');}
         await client.query('UPDATE halloween_state SET body=$1 WHERE id=1',[JSON.stringify(state)]);
       }
     });
