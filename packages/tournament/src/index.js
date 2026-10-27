@@ -81,6 +81,11 @@ export function transition(previous, data, counts) {
       break;
     default: throw new RequestError('Unknown action.');
   }
+  // Complete the round atomically once every winner is known.
+  if(['close','resolve'].includes(data.action) && state.status==='closed' && current.every(m=>state.winners[m.id])) {
+    if(state.round===4) state.status='complete';
+    else {state.round++;state.status='open';}
+  }
   state.revision=previous.revision+1;
   return state;
 }

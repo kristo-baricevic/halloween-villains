@@ -108,8 +108,7 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
   assert.equal((await post({action:'vote',match:m.id,choice:a},{Cookie:cookie})).status,400);
   assert.equal((await get()).state.winners[m.id],a);
   for(const path of ['/data/host.key','/../host.key','/server.py','/package.json']) assert.equal((await fetch(base+path)).status,404);
-  const closed=(await get(hostHeaders)).state;
-  assert.equal((await post({action:'advance',revision:closed.revision},hostHeaders)).status,200);
+
   const advanced=(await get(hostHeaders)).state;
   assert.equal(advanced.round,1);assert.equal(advanced.status,'open');
   assert.ok(advanced.rounds[1].every(m=>m.participants.every(Boolean)));
