@@ -1,3 +1,4 @@
+import {rawBallots,validateExclusion} from './ballots.js';
 import pg from 'pg';
 import { readFileSync } from 'node:fs';
 import { participants, roster, transition, RequestError, validateBallot } from '@halloween/tournament';
@@ -19,6 +20,7 @@ export class PostgresTournament {
       await client.query('CREATE TABLE IF NOT EXISTS halloween_state (id INTEGER PRIMARY KEY, body JSONB NOT NULL)');
       await client.query('CREATE TABLE IF NOT EXISTS halloween_votes (voter TEXT, match TEXT, choice TEXT NOT NULL, PRIMARY KEY(voter,match))');
       await client.query('CREATE TABLE IF NOT EXISTS halloween_ballot_names (voter TEXT, round INTEGER, name TEXT NOT NULL, normalized_name TEXT NOT NULL, submitted_at TIMESTAMPTZ NOT NULL, PRIMARY KEY(voter,round))');
+      await client.query('CREATE TABLE IF NOT EXISTS halloween_excluded_votes (voter TEXT, match TEXT, PRIMARY KEY(voter,match))');
       await client.query('INSERT INTO halloween_state VALUES (1,$1) ON CONFLICT DO NOTHING',[JSON.stringify(initialState)]);
     }).catch(error=>{this.ready=null;throw error;});
     await this.ready;
@@ -36,7 +38,7 @@ export class PostgresTournament {
   }
   async tallies(client) {
     const counts={};
-    const {rows}=await client.query('SELECT match,choice,COUNT(*)::integer AS total FROM halloween_votes GROUP BY match,choice');
+    const {rows}=await client.query('SELECT match,choice,COUNT(*)::integer AS total FROM halloween_votes v WHERE NOT EXISTS (SELECT 1 FROM halloween_excluded_votes e WHERE e.voter=v.voter AND e.match=v.match) GROUP BY match,choice');
     for(const row of rows) (counts[row.match]??={})[row.choice]=row.total;
     return counts;
   }
@@ -55,6 +57,10 @@ export class PostgresTournament {
       return {...state,roster,host,myName};
     },true);
   }
+  async rawBallots() {
+    await this.initialize();
+    return this.transaction(async client=>rawBallots((await client.query('SELECT body FROM halloween_state WHERE id=1')).rows[0].body,(await client.query('SELECT * FROM halloween_ballot_names')).rows,(await client.query('SELECT * FROM halloween_votes')).rows,(await client.query('SELECT * FROM halloween_excluded_votes')).rows),true);
+  }
   async action(data,voter,host) {
     await this.initialize();
     return this.transaction(async client=>{
@@ -68,8 +74,17 @@ export class PostgresTournament {
         await client.query('INSERT INTO halloween_ballot_names VALUES ($1,$2,$3,$4,NOW()) ON CONFLICT(voter,round) DO UPDATE SET name=excluded.name,normalized_name=excluded.normalized_name,submitted_at=excluded.submitted_at',[voter,state.round,ballot.name,ballot.normalizedName]);
       } else {
         if(!host) throw new RequestError('Host access required.',403);
-        state=transition(state,data,await this.tallies(client));
-        if(data.action==='shuffle') {await client.query('DELETE FROM halloween_votes');await client.query('DELETE FROM halloween_ballot_names');}
+        if(data.action==='excludeBallot') {
+          const matches=validateExclusion(state,data);
+          const votes=(await client.query('SELECT match FROM halloween_votes WHERE voter=$1',[data.voter])).rows;
+          if(!votes.some(v=>matches.includes(v.match)))throw new RequestError('Ballot not found.',404);
+          for(const match of matches){
+            if(data.excluded)await client.query('INSERT INTO halloween_excluded_votes VALUES ($1,$2) ON CONFLICT DO NOTHING',[data.voter,match]);
+            else await client.query('DELETE FROM halloween_excluded_votes WHERE voter=$1 AND match=$2',[data.voter,match]);
+          }
+          state.revision++;
+        } else state=transition(state,data,await this.tallies(client));
+        if(data.action==='shuffle') {await client.query('DELETE FROM halloween_votes');await client.query('DELETE FROM halloween_ballot_names');await client.query('DELETE FROM halloween_excluded_votes');}
         await client.query('UPDATE halloween_state SET body=$1 WHERE id=1',[JSON.stringify(state)]);
       }
     });

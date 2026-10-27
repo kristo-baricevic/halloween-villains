@@ -40,7 +40,7 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
   const pgStore=backend==='postgres'?new PostgresTournament({connectionString:process.env.TEST_DATABASE_URL,key:'test-only-host-key-at-least-32-characters'}):undefined;
   if(pgStore) {
     await pgStore.initialize();
-    await pgStore.pool.query('TRUNCATE halloween_votes, halloween_ballot_names');
+    await pgStore.pool.query('TRUNCATE halloween_votes, halloween_ballot_names, halloween_excluded_votes');
     await pgStore.pool.query('UPDATE halloween_state SET body=$1 WHERE id=1',[JSON.stringify(fresh())]);
   }
   const {server,tournament}=createApplication({dataDir,adminPassword:'test-admin-password',...(pgStore?{tournament:pgStore}:{})});
@@ -103,7 +103,21 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
   const raceCookie=(await get()).response.headers.get('set-cookie').split(';')[0];
   const competing=await Promise.all([a,b].map(choice=>post({action:'vote',match:m.id,choice},{Cookie:raceCookie})));
   assert.deepEqual(competing.map(r=>r.status).sort(),[200,409]);
+  assert.equal((await fetch(base+'/api/ballots')).status,403);
+  const raw=await (await fetch(base+'/api/ballots',{headers:hostHeaders})).json();
+  const ballot=raw.find(b=>b.voter===cookie.slice(6).split('.')[0]);
+  assert.equal(ballot.name,'Test Voter');assert.equal(ballot.picks[m.id],a);
+  const before=(await get(hostHeaders)).state;
+  const exclusion={action:'excludeBallot',voter:ballot.voter,round:0,excluded:true,revision:before.revision};
+  assert.equal((await post(exclusion)).status,403);
+  assert.equal((await post(exclusion,hostHeaders)).status,200);
+  const excluded=(await get(hostHeaders)).state;
+  assert.equal(excluded.rounds[0][0].counts[a],before.rounds[0][0].counts[a]-1);
+  assert.equal((await (await fetch(base+'/api/ballots',{headers:hostHeaders})).json()).find(b=>b.voter===ballot.voter).excluded,true);
+  assert.equal((await post({...exclusion,excluded:false},hostHeaders)).status,400);
+  assert.equal((await post({...exclusion,excluded:false,revision:excluded.revision},hostHeaders)).status,200);
   const state=(await get(hostHeaders)).state;
+  assert.deepEqual(state.rounds[0][0].counts,before.rounds[0][0].counts);
   assert.equal((await post({action:'close',revision:state.revision},hostHeaders)).status,200);
   assert.equal((await post({action:'vote',match:m.id,choice:a},{Cookie:cookie})).status,400);
   assert.equal((await get()).state.winners[m.id],a);
@@ -111,6 +125,7 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
 
   const advanced=(await get(hostHeaders)).state;
   assert.equal(advanced.round,1);assert.equal(advanced.status,'open');
+  assert.equal((await post({...exclusion,revision:advanced.revision},hostHeaders)).status,400);
   assert.ok(advanced.rounds[1].every(m=>m.participants.every(Boolean)));
   const malformed=await fetch(base+'/api/action',{method:'POST',headers:{'Content-Type':'application/json'},body:'null'});
   assert.equal(malformed.status,400);

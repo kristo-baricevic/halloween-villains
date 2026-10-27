@@ -12,6 +12,10 @@
   },
   "rewrites": [
     {
+      "source": "/api/ballots",
+      "destination": "/api/index"
+    },
+    {
       "source": "/admin",
       "destination": "/admin.html"
     },

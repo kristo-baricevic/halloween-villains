@@ -75,6 +75,7 @@ export function createApplication({dataDir,secureCookies=false,adminPassword=pro
       const path=new URL(req.url,'http://localhost').pathname;
       if(req.method==='GET') {
         if(path==='/healthz') return send(200,JSON.stringify({ok:true}));
+        if(path==='/api/ballots'){if(!host)throw new RequestError('Host access required.',403);return send(200,JSON.stringify(await tournament.rawBallots()));}
         if(path==='/api/state') return send(200,JSON.stringify(await tournament.view(voter,host)));
         const file=files.get(path);
         if(file) return send(200,file.body,file.mime);

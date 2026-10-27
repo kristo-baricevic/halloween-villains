@@ -144,3 +144,5 @@ header{color:#ffd19a}
 .champion-rain span:nth-child(32){left:47%;font-size:28px;animation-duration:9s;animation-delay:-1.63s}
 @media(max-width:600px){.champion-rain span:nth-child(n+19){display:none}}
 @media(prefers-reduced-motion:reduce){.champion-rain{display:none}}
+
+.raw-votes{margin:24px 0;padding:24px;background:#fff1dc;border:1px solid var(--line);border-radius:12px}.raw-votes select{padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink)}.raw-table-scroll{overflow:auto}.raw-votes table{width:100%;border-collapse:collapse;text-align:left;font-size:14px}.raw-votes caption{text-align:left;padding:16px 0;font-weight:bold}.raw-votes th,.raw-votes td{padding:16px 12px;border-bottom:1px solid var(--line);vertical-align:top}.raw-votes th{white-space:nowrap}.raw-votes td:nth-child(4){min-width:250px}.raw-votes code{display:block;max-width:130px;overflow-wrap:anywhere;font-size:11px}.raw-votes small{display:block;margin-top:8px;color:#71300e;font-weight:bold}.raw-votes button{padding:10px 14px}.raw-votes td div+div{margin-top:8px}
