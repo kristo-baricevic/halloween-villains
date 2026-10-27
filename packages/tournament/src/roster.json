@@ -3,14 +3,14 @@
     "id": "v1",
     "name": "Ichabod Crane (The Headless Horseman)",
     "franchise": "\"The Legend of Sleepy Hollow\" story by Washington Irving",
-    "pitch": "The story of the Headless Horseman and the character itself really embodies Halloween. Spooky horseman with a pumpkin for a head? In New England? Come on now...",
+    "pitch": "The story of the Headless Horseman and the character itself really embody Halloween. Spooky horseman with a pumpkin for a head? In New England? Come on now...",
     "stats": {
       "strength": 8,
-      "endurance": 9,
-      "creativity": 6,
-      "evil": 7,
-      "supernatural": 9,
-      "cunning": 5
+      "endurance": 7,
+      "creativity": 3,
+      "evil": 5,
+      "supernatural": 7,
+      "cunning": 2
     },
     "moves": [
       {
@@ -27,14 +27,14 @@
     "id": "v2",
     "name": "Hannibal Lecter",
     "franchise": "Silence of the Lambs, Red Dragon, Manhunter films and books.",
-    "pitch": "Super creepy, and played brilliantly by the likes of Anthony Hopkins, Brian Cox, and Mads Mikkelsen. Lecter gets inside the audiences head, and really defines a Halloween horror experience. ",
+    "pitch": "Super creepy, and played brilliantly by the likes of Anthony Hopkins, Brian Cox, and Mads Mikkelsen. Lecter gets inside the audience’s head, and really defines a Halloween horror experience.",
     "stats": {
-      "strength": 5,
-      "endurance": 6,
-      "creativity": 9,
-      "evil": 10,
+      "strength": 4,
+      "endurance": 5,
+      "creativity": 7,
+      "evil": 8,
       "supernatural": 1,
-      "cunning": 10
+      "cunning": 7
     },
     "moves": [
       {
@@ -49,16 +49,16 @@
   },
   {
     "id": "v3",
-    "name": "The ShapeShifter from \"The Thing\"",
+    "name": "The Shapeshifter from \"The Thing\"",
     "franchise": "The Thing",
-    "pitch": "It can become any one with near perfect accuracy. Nothing scarier than waking up next to an exact copy of yourself. Are you sure you're the real one? Even if you are, who will believe you?",
+    "pitch": "It can become anyone with near-perfect accuracy. Nothing scarier than waking up next to an exact copy of yourself. Are you sure you're the real one? Even if you are, who will believe you?",
     "stats": {
-      "strength": 9,
-      "endurance": 10,
-      "creativity": 10,
-      "evil": 9,
-      "supernatural": 8,
-      "cunning": 9
+      "strength": 6,
+      "endurance": 7,
+      "creativity": 7,
+      "evil": 5,
+      "supernatural": 4,
+      "cunning": 3
     },
     "moves": [
       {
@@ -75,14 +75,14 @@
     "id": "v4",
     "name": "The Jeans from the movie Slaxx",
     "franchise": "Slaxx the Canadian horror-comedy",
-    "pitch": "A pair of jeans possessed by the spirit of a child worker who died picking the cotton they're made from. It strangles it's victims. You'll never want to wear unethically sourced denim again! 👖",
+    "pitch": "A pair of jeans possessed by the spirit of a child worker who died picking the cotton they're made from. It strangles its victims. You'll never want to wear unethically sourced denim again! 👖",
     "stats": {
-      "strength": 6,
-      "endurance": 8,
-      "creativity": 9,
-      "evil": 7,
-      "supernatural": 8,
-      "cunning": 5
+      "strength": 5,
+      "endurance": 6,
+      "creativity": 8,
+      "evil": 4,
+      "supernatural": 7,
+      "cunning": 2
     },
     "moves": [
       {
@@ -101,12 +101,12 @@
     "franchise": "Halloween",
     "pitch": "The mask. The music. The fact that he never runs and still catches everyone. Michael Myers makes a quiet suburban street terrifying, and Halloween is literally his franchise. Give the man his crown.",
     "stats": {
-      "strength": 9,
-      "endurance": 10,
-      "creativity": 3,
-      "evil": 10,
-      "supernatural": 6,
-      "cunning": 6
+      "strength": 8,
+      "endurance": 9,
+      "creativity": 2,
+      "evil": 8,
+      "supernatural": 2,
+      "cunning": 3
     },
     "moves": [
       {
@@ -125,12 +125,12 @@
     "franchise": "The Little Mermaid",
     "pitch": "Ursula turns every scene into a spectacle: sharp, funny, ambitious, and backed by one of Disney’s best villain songs. She makes a dangerous deal feel irresistible, then nearly wins. That blend of theatrical flair and real menace earns her the crown.",
     "stats": {
-      "strength": 8,
-      "endurance": 8,
-      "creativity": 9,
-      "evil": 9,
-      "supernatural": 10,
-      "cunning": 10
+      "strength": 5,
+      "endurance": 3,
+      "creativity": 7,
+      "evil": 5,
+      "supernatural": 8,
+      "cunning": 4
     },
     "moves": [
       {
@@ -147,14 +147,14 @@
     "id": "v7",
     "name": "Chucky",
     "franchise": "Child's Play",
-    "pitch": "Dolls are possessed and alive y'all. Stay awake with one eye open (they watch while you sleep). \n\nFun fact, if your babysitter lets you watch Child's Play at 6 years old, you will insist on throwing away every toy doll you were given (only legos are safe), and you will have a life long fear of dolls.",
+    "pitch": "Dolls are possessed and alive y'all. Stay awake with one eye open (they watch while you sleep). \n\nFun fact, if your babysitter lets you watch Child's Play at 6 years old, you will insist on throwing away every toy doll you were given (only LEGO bricks are safe), and you will have a lifelong fear of dolls.",
     "stats": {
-      "strength": 4,
-      "endurance": 8,
-      "creativity": 8,
-      "evil": 9,
-      "supernatural": 8,
-      "cunning": 8
+      "strength": 3,
+      "endurance": 5,
+      "creativity": 7,
+      "evil": 7,
+      "supernatural": 4,
+      "cunning": 6
     },
     "moves": [
       {
@@ -171,14 +171,14 @@
     "id": "v8",
     "name": "Beetlejuice",
     "franchise": "Beetlejuice",
-    "pitch": "Overall kookiness + proximity to Catherine O'Hara ",
+    "pitch": "Overall kookiness + proximity to Catherine O'Hara",
     "stats": {
-      "strength": 7,
-      "endurance": 9,
-      "creativity": 10,
-      "evil": 7,
-      "supernatural": 10,
-      "cunning": 8
+      "strength": 3,
+      "endurance": 4,
+      "creativity": 9,
+      "evil": 3,
+      "supernatural": 8,
+      "cunning": 5
     },
     "moves": [
       {
@@ -194,14 +194,14 @@
   {
     "id": "v9",
     "name": "The Mothman",
-    "franchise": "The Mothman Prophecies film / folklore ",
+    "franchise": "The Mothman Prophecies film / folklore",
     "pitch": "Scariest cryptid of all time",
     "stats": {
-      "strength": 7,
-      "endurance": 8,
-      "creativity": 7,
-      "evil": 4,
-      "supernatural": 9,
+      "strength": 6,
+      "endurance": 5,
+      "creativity": 4,
+      "evil": 2,
+      "supernatural": 8,
       "cunning": 7
     },
     "moves": [
@@ -221,12 +221,12 @@
     "franchise": "Over the Garden Wall",
     "pitch": "from the wiki: \"He uses psychological manipulation, umbrakinesis (darkness control), and haunting opera singing\"",
     "stats": {
-      "strength": 7,
-      "endurance": 9,
-      "creativity": 9,
-      "evil": 9,
-      "supernatural": 10,
-      "cunning": 10
+      "strength": 3,
+      "endurance": 5,
+      "creativity": 5,
+      "evil": 6,
+      "supernatural": 6,
+      "cunning": 7
     },
     "moves": [
       {
@@ -245,12 +245,12 @@
     "franchise": "Coraline",
     "pitch": "The Beldam is just doing what monsters do. The real villains are Coraline's parents. Their constant emotional neglect and refusal to pay attention to their daughter created the exact vulnerability the monster needed to trap her. They are the true catalysts for the horror.",
     "stats": {
-      "strength": 3,
-      "endurance": 5,
-      "creativity": 4,
-      "evil": 4,
+      "strength": 4,
+      "endurance": 9,
+      "creativity": 8,
+      "evil": 5,
       "supernatural": 1,
-      "cunning": 6
+      "cunning": 5
     },
     "moves": [
       {
@@ -270,9 +270,9 @@
     "pitch": "Audrey II gets the credit as the monster, but Seymour is the enabler. To get fame, wealth, and the girl, he actively chooses to chop up bodies and feed humans to an alien plant instead of just going back to being an ordinary florist. He is the true villain.",
     "stats": {
       "strength": 4,
-      "endurance": 5,
-      "creativity": 7,
-      "evil": 7,
+      "endurance": 6,
+      "creativity": 8,
+      "evil": 6,
       "supernatural": 1,
       "cunning": 7
     },
@@ -293,12 +293,12 @@
     "franchise": "It, from Stephen King",
     "pitch": "Made us see Ronald McDonald in a whole new light",
     "stats": {
-      "strength": 9,
-      "endurance": 9,
-      "creativity": 10,
-      "evil": 10,
-      "supernatural": 10,
-      "cunning": 9
+      "strength": 5,
+      "endurance": 3,
+      "creativity": 8,
+      "evil": 7,
+      "supernatural": 7,
+      "cunning": 2
     },
     "moves": [
       {
@@ -313,16 +313,16 @@
   },
   {
     "id": "v14",
-    "name": "Freddy Kruger",
+    "name": "Freddy Krueger",
     "franchise": "Nightmare on Elm Street",
-    "pitch": "He stalks and kills your in your dreams. The perfect formula for years of nightmares. ",
+    "pitch": "He stalks and kills you in your dreams. The perfect formula for years of nightmares.",
     "stats": {
-      "strength": 7,
-      "endurance": 9,
-      "creativity": 10,
-      "evil": 10,
-      "supernatural": 10,
-      "cunning": 9
+      "strength": 3,
+      "endurance": 4,
+      "creativity": 8,
+      "evil": 8,
+      "supernatural": 7,
+      "cunning": 2
     },
     "moves": [
       {
@@ -341,12 +341,12 @@
     "franchise": "Friday the 13th",
     "pitch": "12 films. That's a lot of murders.",
     "stats": {
-      "strength": 10,
-      "endurance": 10,
-      "creativity": 4,
-      "evil": 9,
-      "supernatural": 8,
-      "cunning": 5
+      "strength": 9,
+      "endurance": 9,
+      "creativity": 2,
+      "evil": 7,
+      "supernatural": 3,
+      "cunning": 2
     },
     "moves": [
       {
@@ -363,14 +363,14 @@
     "id": "v16",
     "name": "The Babadook",
     "franchise": "The Babadook",
-    "pitch": "terrifying basement dwelling monster or haunting allegory about grief and trauma?  you decide (note: i cannot watch scary movies so everything i know about this film comes from wikipedia and instagram reels)",
+    "pitch": "Terrifying basement-dwelling monster or haunting allegory about grief and trauma? You decide (note: I cannot watch scary movies so everything I know about this film comes from Wikipedia and Instagram reels)",
     "stats": {
-      "strength": 7,
-      "endurance": 9,
-      "creativity": 9,
-      "evil": 7,
-      "supernatural": 10,
-      "cunning": 8
+      "strength": 3,
+      "endurance": 8,
+      "creativity": 5,
+      "evil": 4,
+      "supernatural": 8,
+      "cunning": 4
     },
     "moves": [
       {
@@ -387,14 +387,14 @@
     "id": "v17",
     "name": "Vecna",
     "franchise": "Stranger Things",
-    "pitch": "a classic human-turned-monster origin story, an army of Demogorgons, and the power to make me scared of every flickering light in my apartment :)",
+    "pitch": "A classic human-turned-monster origin story, an army of Demogorgons, and the power to make me scared of every flickering light in my apartment :)",
     "stats": {
-      "strength": 8,
-      "endurance": 9,
-      "creativity": 9,
-      "evil": 10,
-      "supernatural": 10,
-      "cunning": 10
+      "strength": 4,
+      "endurance": 4,
+      "creativity": 5,
+      "evil": 7,
+      "supernatural": 8,
+      "cunning": 4
     },
     "moves": [
       {
@@ -411,14 +411,14 @@
     "id": "v18",
     "name": "Nikki Freeman",
     "franchise": "Obsession (movie)",
-    "pitch": "she brings the kind of horror that feels a little too real and makes you uncomfortable in the worst way posible…and don’t even get me started on that horrifying smile 😭",
+    "pitch": "She brings the kind of horror that feels a little too real and makes you uncomfortable in the worst way possible…and don’t even get me started on that horrifying smile 😭",
     "stats": {
       "strength": 5,
       "endurance": 7,
-      "creativity": 8,
-      "evil": 8,
-      "supernatural": 6,
-      "cunning": 8
+      "creativity": 5,
+      "evil": 6,
+      "supernatural": 3,
+      "cunning": 6
     },
     "moves": [
       {
@@ -435,14 +435,14 @@
     "id": "v19",
     "name": "A Murder (otherwise known as a flock of crows)",
     "franchise": "The Birds (film), 1963 Hitchcock",
-    "pitch": "crows and ravens have always been associated with Halloween, horror, and lore as symbols of death and dark omens. Also used as an ominous creature by E.A. Poe ",
+    "pitch": "Crows and ravens have always been associated with Halloween, horror, and lore as symbols of death and dark omens. Also used as an ominous creature by E.A. Poe",
     "stats": {
-      "strength": 6,
-      "endurance": 8,
-      "creativity": 7,
-      "evil": 6,
-      "supernatural": 2,
-      "cunning": 8
+      "strength": 5,
+      "endurance": 7,
+      "creativity": 5,
+      "evil": 5,
+      "supernatural": 1,
+      "cunning": 9
     },
     "moves": [
       {
@@ -461,12 +461,12 @@
     "franchise": "\"The Conjuring\" series, including \"Annabelle\"",
     "pitch": "A porcelain doll, based on a real Raggedy Ann doll, deemed possessed; moved itself and objects; supposedly attacked a person and left scratches: investigated and ultimately kept locked in the basement of paranormal investigators, the Warrens.  It now resides in their haunted museum, in Salem, MA.",
     "stats": {
-      "strength": 3,
-      "endurance": 10,
-      "creativity": 8,
-      "evil": 9,
-      "supernatural": 10,
-      "cunning": 9
+      "strength": 1,
+      "endurance": 8,
+      "creativity": 4,
+      "evil": 7,
+      "supernatural": 9,
+      "cunning": 3
     },
     "moves": [
       {
@@ -483,14 +483,14 @@
     "id": "v21",
     "name": "Thing",
     "franchise": "Addams Family",
-    "pitch": "It's a hand about the rest! Give it a hand. You got a hand it to em! Hand me that hat! Hand it over, I said! I could do this all day, but I have to go hand out candy.",
+    "pitch": "It's a hand above the rest! Give it a hand. You gotta hand it to ’em! Hand me that hat! Hand it over, I said! I could do this all day, but I have to go hand out candy.",
     "stats": {
       "strength": 3,
-      "endurance": 7,
+      "endurance": 6,
       "creativity": 9,
       "evil": 1,
-      "supernatural": 7,
-      "cunning": 9
+      "supernatural": 5,
+      "cunning": 8
     },
     "moves": [
       {
