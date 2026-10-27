@@ -36,13 +36,20 @@ export function createApplication({dataDir,secureCookies=false}) {
   const files=new Map([
     ['/', ['index.html','text/html']],['/host',['index.html','text/html']],
     ['/app.js',['app.js','text/javascript']],['/style.css',['style.css','text/css']],
+    ['/villain-images.json',['villain-images.json','application/json']],
   ].map(([route,[file,mime]])=>[route,{body:readFileSync(join(publicDirectory,file)),mime}]));
+  const manifest=JSON.parse(files.get('/villain-images.json').body);
+  for(const image of Object.values(manifest.images)) {
+    if(!/^\/images\/villains\/v\d+\.(jpg|png|webp)$/.test(image.path)) throw new Error('Invalid image manifest path');
+    const mime={jpg:'image/jpeg',png:'image/png',webp:'image/webp'}[image.path.split('.').pop()];
+    files.set(image.path,{body:readFileSync(join(publicDirectory,image.path.slice(1))),mime});
+  }
   const server=createServer(async(req,res)=>{
     const {voter,cookie,host}=identity(req,tournament.key);
     const send=(status,content,mime='application/json')=>{
       const payload=Buffer.isBuffer(content)?content:Buffer.from(content);
       res.writeHead(status,{
-        'Content-Type':`${mime}; charset=utf-8`, 'Content-Length':payload.length,
+        'Content-Type':mime.startsWith('image/')?mime:`${mime}; charset=utf-8`, 'Content-Length':payload.length,
         'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',
         'Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'",
         'Set-Cookie':`voter=${cookie}; Path=/; HttpOnly; SameSite=Lax; Max-Age=31536000${secureCookies?'; Secure':''}`,

@@ -1,12 +1,12 @@
 const $=s=>document.querySelector(s);
 const names=['Wildcards','Sweet 16','Elite 8','Final Four','Championship'];
-const icons=['🎃','🍷','🧬','👖','🔪','🐙','🪆','🪲','🦋','🌲','🧵','🪴','🎈','🧤','🏒','🎩','🕰️','🪞','🐦‍⬛','🪆','✋'];
+let imageManifest={};
 let state,view='vote',busy=false,toastTimer;
 let key=localStorage.getItem('villain-host')||'';
 if(location.pathname==='/host'&&location.hash.length>1){key=location.hash.slice(1);localStorage.setItem('villain-host',key);history.replaceState(null,'','/host');}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const villain=id=>state.roster.find(v=>v.id===id);
-const icon=id=>icons[Number(id?.slice(1))-1]||'✦';
+const icon=id=>{const img=imageManifest[id];return img?`<img class="portrait" src="${esc(img.path)}" alt="${esc(img.alt)}" loading="lazy" decoding="async" width="480" height="360">`:'';};
 function notify(message){$('#toast').textContent=message;$('#toast').style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').style.display='none',4500);}
 async function refresh(force=false){
   try{const r=await fetch('/api/state',{headers:key?{Authorization:'Bearer '+key}:{}});if(!r.ok)throw Error();const next=await r.json();$('#connection').textContent='Connected • updates live';if(force||JSON.stringify(next)!==JSON.stringify(state)){state=next;render();}}
@@ -23,7 +23,7 @@ function hostPanel(){
  if(state.status==='closed')controls=`<button data-action="reopen">Reopen voting</button><button class="primary" data-action="advance" ${all?'':'disabled'}>${state.round===4?'Crown the champion':'Open '+names[state.round+1]+' voting'}</button>`;
  return `<section class="host-panel"><h2>Host controls</h2><p>${state.status==='complete'?'The champion has been crowned.':state.status==='closed'&&!all?'Resolve tied matches below before opening the next round.':'You control when rounds open and close. Only you see vote totals while voting is open.'}</p><div class="host-actions">${controls}<button id="copyLink">Copy voter link</button></div></section>`;
 }
-function matchCard(m,i){const winner=state.winners[m.id],open=state.status==='open';return `<article class="match"><div class="match-head"><span>Match ${i+1}</span><span>${winner?'Winner decided':state.status==='closed'?'Tied • host decision needed':m.myVote?'Your vote is saved':open?'Choose your villain':'Voting opens soon'}</span></div><div class="pair">${m.participants.map(id=>{const v=villain(id);if(!v)return '';return `<section class="contender"><span class="icon" aria-hidden="true">${icon(id)}</span><h3>${esc(v.name)}</h3><div class="franchise">${esc(v.franchise)}</div><button class="pitch" data-details="${id}">Read their nomination</button>${m.counts?`<div class="count">${m.counts[id]||0} vote${m.counts[id]===1?'':'s'}</div>`:''}${winner?`<div class="result">${winner===id?'✦ Advances':'Eliminated'}</div>`:open?`<button class="pick ${m.myVote===id?'selected':''}" aria-pressed="${m.myVote===id}" data-vote="${m.id}" data-choice="${id}">${m.myVote===id?'✓ Your pick':'Vote for this villain'}</button>`:state.host&&state.status==='closed'?`<button class="pick" data-resolve="${m.id}" data-choice="${id}">Choose as winner</button>`:''}</section>`;}).join('')}</div></article>`;}
+function matchCard(m,i){const winner=state.winners[m.id],open=state.status==='open';return `<article class="match"><div class="match-head"><span>Match ${i+1}</span><span>${winner?'Winner decided':state.status==='closed'?'Tied • host decision needed':m.myVote?'Your vote is saved':open?'Choose your villain':'Voting opens soon'}</span></div><div class="pair">${m.participants.map(id=>{const v=villain(id);if(!v)return '';return `<section class="contender"><span class="icon">${icon(id)}</span><h3>${esc(v.name)}</h3><div class="franchise">${esc(v.franchise)}</div><button class="pitch" data-details="${id}">Read their nomination</button>${m.counts?`<div class="count">${m.counts[id]||0} vote${m.counts[id]===1?'':'s'}</div>`:''}${winner?`<div class="result">${winner===id?'✦ Advances':'Eliminated'}</div>`:open?`<button class="pick ${m.myVote===id?'selected':''}" aria-pressed="${m.myVote===id}" data-vote="${m.id}" data-choice="${id}">${m.myVote===id?'✓ Your pick':'Vote for this villain'}</button>`:state.host&&state.status==='closed'?`<button class="pick" data-resolve="${m.id}" data-choice="${id}">Choose as winner</button>`:''}</section>`;}).join('')}</div></article>`;}
 function bracket(){return `<div class="bracket">${state.rounds.map((rd,r)=>`<section class="round"><h3>${names[r]}</h3><div class="round-games">${rd.map(m=>`<div class="mini-match">${m.sources.map((src,i)=>{const id=m.participants[i],v=villain(id);let placeholder='Winner of '+(src[1]==='w'?'wildcard '+(Number(src.slice(2))+1):'previous match');return `<button ${id?`data-details="${id}"`:'disabled'} class="mini-player ${state.winners[m.id]===id&&id?'winner':''} ${id?'':'pending'}"><span>${esc(v?.name||placeholder)}</span><span>${m.counts&&id?m.counts[id]||0:''}${state.winners[m.id]===id&&id?' ✓':''}</span></button>`;}).join('')}</div>`).join('')}</div></section>`).join('')}</div>`;}
 function render(){
  const rd=state.rounds[state.round];
@@ -53,7 +53,7 @@ function drawConnections(){
   const x1=from.right-rect.left+board.scrollLeft,y1=from.top+from.height/2-rect.top;
   const x2=to.left-rect.left+board.scrollLeft,y2=to.top+to.height/2-rect.top;
   const path=document.createElementNS(svg.namespaceURI,'path');
-  path.setAttribute('d',`M ${x1} ${y1} H ${(x1+x2)/2} V ${y2} H ${x2}`);path.setAttribute('fill','none');path.setAttribute('stroke','#a99aa9');path.setAttribute('stroke-width','1');svg.append(path);
+  path.setAttribute('d',`M ${x1} ${y1} H ${(x1+x2)/2} V ${y2} H ${x2}`);path.setAttribute('fill','none');path.setAttribute('stroke','#783913');path.setAttribute('stroke-width','1');svg.append(path);
  });board.prepend(svg);
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawConnections));
@@ -61,4 +61,4 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
 for(const mode of ['vote','bracket','roster'])$('#'+mode+'Tab').onclick=()=>{view=mode;render();};
 $('#closeDetails').onclick=()=>$('#details').close();
 $('#details').onclick=e=>{if(e.target===$('#details'))$('#details').close();};
-refresh();setInterval(()=>{if(!busy&&!document.hidden)refresh();},3000);
+fetch('/villain-images.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{imageManifest=data.images;return refresh();}).catch(()=>{notify('Images could not load. Refresh to try again.');refresh();});setInterval(()=>{if(!busy&&!document.hidden)refresh();},3000);

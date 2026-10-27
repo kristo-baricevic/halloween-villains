@@ -36,6 +36,10 @@ If your workspace requires RTK, prefix these commands with `rtk proxy`.
 
 This is a casual poll, not identity-verified voting. Another browser or clearing cookies permits another ballot. No voter names or emails are collected. Nominations are a fixed snapshot; no Google credentials, nominator names, or submission timestamps are included.
 
+## Character images
+
+`apps/web/public/villain-images.json` maps all 21 roster IDs to local image paths, alt text, source pages, download URLs, retrieval dates, dimensions, MIME types, and SHA-256 checksums. The original downloaded image bytes are stored in `apps/web/public/images/villains/`; the app serves them locally rather than hotlinking to third-party websites. See each source page for image credits and rights. The manifest does not assert a blanket reuse license for film stills or character artwork.
+
 ## Configuration
 
 | Variable | Default | Meaning |

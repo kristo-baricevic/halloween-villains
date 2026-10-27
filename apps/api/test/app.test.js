@@ -5,8 +5,8 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {once} from 'node:events';
 import {DatabaseSync} from 'node:sqlite';
-import {createHmac} from 'node:crypto';
-import {fresh} from '@halloween/tournament';
+import {createHmac,createHash} from 'node:crypto';
+import {fresh,roster} from '@halloween/tournament';
 import {Tournament} from '../src/store.js';
 import {createApplication} from '../src/app.js';
 
@@ -23,6 +23,17 @@ test('HTTP voting, privacy, auth, concurrent ballots, and persistence',async(t)=
     return {status:r.status,body:await r.json()};
   };
   let initial=await get();const m=initial.state.rounds[0][0], [a,b]=m.participants;
+  const manifest=await (await fetch(base+'/villain-images.json')).json();
+  assert.deepEqual(Object.keys(manifest.images).sort(),roster.map(v=>v.id).sort());
+  for(const image of Object.values(manifest.images)) {
+    assert.match(image.sourcePage,/^https:\/\//);
+    const asset=await fetch(base+image.path);
+    assert.equal(asset.status,200);
+    assert.equal(asset.headers.get('content-type'),image.mimeType);
+    const bytes=Buffer.from(await asset.arrayBuffer());
+    assert.equal(bytes.length,image.bytes);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'),image.sha256);
+  }
   const cookie=initial.response.headers.get('set-cookie').split(';')[0];
   assert.ok(initial.response.headers.get('set-cookie').includes('HttpOnly'));
   assert.equal((await post({action:'open',revision:0})).status,403);
