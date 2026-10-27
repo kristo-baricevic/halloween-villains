@@ -1,0 +1,128 @@
+[
+  {
+    "id": "v1",
+    "name": "Ichabod Crane (The Headless Horseman)",
+    "franchise": "\"The Legend of Sleepy Hollow\" story by Washington Irving",
+    "pitch": "The story of the Headless Horseman and the character itself really embodies Halloween. Spooky horseman with a pumpkin for a head? In New England? Come on now..."
+  },
+  {
+    "id": "v2",
+    "name": "Hannibal Lecter",
+    "franchise": "Silence of the Lambs, Red Dragon, Manhunter films and books.",
+    "pitch": "Super creepy, and played brilliantly by the likes of Anthony Hopkins, Brian Cox, and Mads Mikkelsen. Lecter gets inside the audiences head, and really defines a Halloween horror experience. "
+  },
+  {
+    "id": "v3",
+    "name": "The ShapeShifter from \"The Thing\"",
+    "franchise": "The Thing",
+    "pitch": "It can become any one with near perfect accuracy. Nothing scarier than waking up next to an exact copy of yourself. Are you sure you're the real one? Even if you are, who will believe you?"
+  },
+  {
+    "id": "v4",
+    "name": "The Jeans from the movie Slaxx",
+    "franchise": "Slaxx the Canadian horror-comedy",
+    "pitch": "A pair of jeans possessed by the spirit of a child worker who died picking the cotton they're made from. It strangles it's victims. You'll never want to wear unethically sourced denim again! 👖"
+  },
+  {
+    "id": "v5",
+    "name": "Michael Myers",
+    "franchise": "Halloween",
+    "pitch": "The mask. The music. The fact that he never runs and still catches everyone. Michael Myers makes a quiet suburban street terrifying, and Halloween is literally his franchise. Give the man his crown."
+  },
+  {
+    "id": "v6",
+    "name": "Ursula",
+    "franchise": "The Little Mermaid",
+    "pitch": "Ursula turns every scene into a spectacle: sharp, funny, ambitious, and backed by one of Disney’s best villain songs. She makes a dangerous deal feel irresistible, then nearly wins. That blend of theatrical flair and real menace earns her the crown."
+  },
+  {
+    "id": "v7",
+    "name": "Chucky",
+    "franchise": "Child's Play",
+    "pitch": "Dolls are possessed and alive y'all. Stay awake with one eye open (they watch while you sleep). \n\nFun fact, if your babysitter lets you watch Child's Play at 6 years old, you will insist on throwing away every toy doll you were given (only legos are safe), and you will have a life long fear of dolls."
+  },
+  {
+    "id": "v8",
+    "name": "Beetlejuice",
+    "franchise": "Beetlejuice",
+    "pitch": "Overall kookiness + proximity to Catherine O'Hara "
+  },
+  {
+    "id": "v9",
+    "name": "The Mothman",
+    "franchise": "The Mothman Prophecies film / folklore ",
+    "pitch": "Scariest cryptid of all time"
+  },
+  {
+    "id": "v10",
+    "name": "The Beast",
+    "franchise": "Over the Garden Wall",
+    "pitch": "from the wiki: \"He uses psychological manipulation, umbrakinesis (darkness control), and haunting opera singing\""
+  },
+  {
+    "id": "v11",
+    "name": "Mel and Charlie Jones (Coraline's Parents)",
+    "franchise": "Coraline",
+    "pitch": "The Beldam is just doing what monsters do. The real villains are Coraline's parents. Their constant emotional neglect and refusal to pay attention to their daughter created the exact vulnerability the monster needed to trap her. They are the true catalysts for the horror."
+  },
+  {
+    "id": "v12",
+    "name": "Seymour Krelborn",
+    "franchise": "Little Shop of Horrors",
+    "pitch": "Audrey II gets the credit as the monster, but Seymour is the enabler. To get fame, wealth, and the girl, he actively chooses to chop up bodies and feed humans to an alien plant instead of just going back to being an ordinary florist. He is the true villain."
+  },
+  {
+    "id": "v13",
+    "name": "Pennywise the Clown",
+    "franchise": "It, from Stephen King",
+    "pitch": "Made us see Ronald McDonald in a whole new light"
+  },
+  {
+    "id": "v14",
+    "name": "Freddy Kruger",
+    "franchise": "Nightmare on Elm Street",
+    "pitch": "He stalks and kills your in your dreams. The perfect formula for years of nightmares. "
+  },
+  {
+    "id": "v15",
+    "name": "Jason Voorhees",
+    "franchise": "Friday the 13th",
+    "pitch": "12 films. That's a lot of murders."
+  },
+  {
+    "id": "v16",
+    "name": "The Babadook",
+    "franchise": "The Babadook",
+    "pitch": "terrifying basement dwelling monster or haunting allegory about grief and trauma?  you decide (note: i cannot watch scary movies so everything i know about this film comes from wikipedia and instagram reels)"
+  },
+  {
+    "id": "v17",
+    "name": "Vecna",
+    "franchise": "Stranger Things",
+    "pitch": "a classic human-turned-monster origin story, an army of Demogorgons, and the power to make me scared of every flickering light in my apartment :)"
+  },
+  {
+    "id": "v18",
+    "name": "Nikki Freeman",
+    "franchise": "Obsession (movie)",
+    "pitch": "she brings the kind of horror that feels a little too real and makes you uncomfortable in the worst way posible…and don’t even get me started on that horrifying smile 😭"
+  },
+  {
+    "id": "v19",
+    "name": "A Murder (otherwise known as a flock of crows)",
+    "franchise": "The Birds (film), 1963 Hitchcock",
+    "pitch": "crows and ravens have always been associated with Halloween, horror, and lore as symbols of death and dark omens. Also used as an ominous creature by E.A. Poe "
+  },
+  {
+    "id": "v20",
+    "name": "Annabelle",
+    "franchise": "\"The Conjuring\" series, including \"Annabelle\"",
+    "pitch": "A porcelain doll, based on a real Raggedy Ann doll, deemed possessed; moved itself and objects; supposedly attacked a person and left scratches: investigated and ultimately kept locked in the basement of paranormal investigators, the Warrens.  It now resides in their haunted museum, in Salem, MA."
+  },
+  {
+    "id": "v21",
+    "name": "Thing",
+    "franchise": "Addams Family",
+    "pitch": "It's a hand about the rest! Give it a hand. You got a hand it to em! Hand me that hat! Hand it over, I said! I could do this all day, but I have to go hand out candy."
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "name": "halloween-villains",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.15.0"
+  },
+  "scripts": {
+    "start": "npm run start --workspace=@halloween/api",
+    "dev": "npm run dev --workspace=@halloween/api",
+    "test": "node --test packages/tournament/test/*.test.js apps/api/test/*.test.js",
+    "check": "node --check apps/web/public/app.js && node --check apps/api/src/app.js && node --check apps/api/src/index.js && node --check packages/tournament/src/index.js"
+  }
+}
