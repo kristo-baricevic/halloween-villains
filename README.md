@@ -32,7 +32,7 @@ If your workspace requires RTK, prefix these commands with `rtk proxy`.
 - Ten contenders play five wildcard matches. Their winners join eleven byes in the Sweet 16, followed by the Elite 8, Final Four, and championship.
 - Every shuffle preserves the paired-nomination rule. Shuffling is only available before voting starts.
 - The host opens and closes rounds. The higher vote count wins; ties (including 0–0) need an explicit host choice. The current closed round can be reopened before advancing.
-- Picks stay local until the voter enters a name and submits the complete round ballot. Resubmitting from the same browser updates its votes while voting is open. Counts remain hidden from voters until the round closes.
+- Picks stay local until the voter enters a name and submits the complete round ballot. Each browser can submit once per round; submitted picks cannot be changed. Counts remain hidden from voters until the round closes.
 
 This is a casual poll, not identity-verified voting. Another browser or clearing cookies permits another ballot. A name is required when submitting a complete round ballot. Names, normalized names, and submission times are stored privately for later duplicate review; names are not verified identities. Emails are not collected. Nominations are a fixed snapshot; no Google credentials, nominator names, or submission timestamps are included.
 

@@ -63,6 +63,7 @@ export class PostgresTournament {
       let state=(await client.query('SELECT body FROM halloween_state WHERE id=1 FOR UPDATE')).rows[0].body;
       if(data.action==='submit') {
         const ballot=validateBallot(state,data);
+        if((await client.query('SELECT 1 FROM halloween_ballot_names WHERE voter=$1 AND round=$2',[voter,state.round])).rowCount) throw new RequestError('Your ballot for this round has already been submitted.',409);
         for(const [match,choice] of Object.entries(ballot.picks)) await client.query('INSERT INTO halloween_votes VALUES ($1,$2,$3) ON CONFLICT(voter,match) DO UPDATE SET choice=excluded.choice',[voter,match,choice]);
         await client.query('INSERT INTO halloween_ballot_names VALUES ($1,$2,$3,$4,NOW()) ON CONFLICT(voter,round) DO UPDATE SET name=excluded.name,normalized_name=excluded.normalized_name,submitted_at=excluded.submitted_at',[voter,state.round,ballot.name,ballot.normalizedName]);
       } else {

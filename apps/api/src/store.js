@@ -47,6 +47,7 @@ export class Tournament {
       let state=this.readState();
       if(data.action==='submit') {
         const ballot=validateBallot(state,data);
+        if(this.db.prepare('SELECT 1 FROM ballot_names WHERE voter=? AND round=?').get(voter,state.round)) throw new RequestError('Your ballot for this round has already been submitted.',409);
         for(const [match,choice] of Object.entries(ballot.picks)) this.db.prepare('INSERT INTO votes VALUES (?,?,?) ON CONFLICT(voter,match) DO UPDATE SET choice=excluded.choice').run(voter,match,choice);
         this.db.prepare('INSERT INTO ballot_names VALUES (?,?,?,?,?) ON CONFLICT(voter,round) DO UPDATE SET name=excluded.name,normalized_name=excluded.normalized_name,submitted_at=excluded.submitted_at').run(voter,state.round,ballot.name,ballot.normalizedName,new Date().toISOString());
       } else {
