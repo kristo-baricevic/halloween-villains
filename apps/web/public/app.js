@@ -9,8 +9,8 @@ const villain=id=>state.roster.find(v=>v.id===id);
 const icon=id=>{const img=imageManifest[id];return img?`<img class="portrait" src="${esc(img.path)}" alt="${esc(img.alt)}" loading="lazy" decoding="async" width="480" height="360">`:'';};
 function notify(message){$('#toast').textContent=message;$('#toast').style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').style.display='none',4500);}
 async function refresh(force=false){
-  try{const r=await fetch('/api/state',{headers:key?{Authorization:'Bearer '+key}:{}});if(!r.ok)throw Error();const next=await r.json();$('#connection').textContent='Connected • updates live';if(force||JSON.stringify(next)!==JSON.stringify(state)){state=next;render();}}
-  catch{$('#connection').textContent='Connection lost • retrying';}
+  try{const r=await fetch('/api/state',{headers:key?{Authorization:'Bearer '+key}:{}});if(!r.ok)throw Error();const next=await r.json();if(force||JSON.stringify(next)!==JSON.stringify(state)){state=next;render();}}
+  catch{/* Retry on the next refresh. */}
 }
 async function action(data){if(busy)return;busy=true;try{const r=await fetch('/api/action',{method:'POST',headers:{'Content-Type':'application/json',...(key?{Authorization:'Bearer '+key}:{})},body:JSON.stringify({...data,revision:state.revision})});const result=await r.json();if(!r.ok)throw Error(result.error);await refresh(true);if(data.action==='vote')notify('Vote saved. You can change it until voting closes.');}catch(e){notify(e.message||'Could not save. Try again.');await refresh();}finally{busy=false;}}
 function details(id){const v=villain(id);if(!v)return;$('#detailBody').innerHTML=`<span class="icon">${icon(id)}</span><h2>${esc(v.name)}</h2><p class="franchise">${esc(v.franchise)}</p><h3>The case for the crown</h3><p>${esc(v.pitch)}</p>`;$('#details').showModal();}
@@ -18,7 +18,6 @@ function matchCard(m,i){const winner=state.winners[m.id],open=state.status==='op
 function bracket(){return `<div class="bracket">${state.rounds.map((rd,r)=>`<section class="round"><h3>${names[r]}</h3><div class="round-games">${rd.map(m=>`<div class="mini-match">${m.sources.map((src,i)=>{const id=m.participants[i],v=villain(id);let placeholder='Winner of '+(src[1]==='w'?'wildcard '+(Number(src.slice(2))+1):'previous match');return `<button ${id?`data-details="${id}"`:'disabled'} class="mini-player ${state.winners[m.id]===id&&id?'winner':''} ${id?'':'pending'}"><span>${esc(v?.name||placeholder)}</span><span>${m.counts&&id?m.counts[id]||0:''}${state.winners[m.id]===id&&id?' ✓':''}</span></button>`;}).join('')}</div>`).join('')}</div></section>`).join('')}</div>`;}
 function render(){
  const rd=state.rounds[state.round];
- $('#progress').textContent=state.status==='complete'?'Tournament complete':`${rd.filter(m=>m.myVote).length} of ${rd.length} picks saved this round`;
  $('#stage').innerHTML=state.status==='complete'?'<h2>We have a champion.</h2><p>The votes are in. The crown has found its villain.</p>':`<h2>${names[state.round]}<span class="badge">${{setup:'Not open yet',open:'Voting open',closed:'Voting closed'}[state.status]}</span></h2><p>${state.status==='setup'?'The host is preparing the matchups. Take a look at the contenders while you wait.':state.status==='open'?'Pick one villain in each matchup. Read the nominations before casting your votes.':'Results are in. The host will resolve any ties and start the next round.'}</p>`;
  let html='';
  if(state.status==='complete'){const id=state.winners[state.rounds[4][0].id];html=`<div class="champion"><span class="icon">${icon(id)}</span><p>Best Halloween villain, 2026</p><h3>${esc(villain(id).name)}</h3><button data-details="${id}">Read the winning nomination</button></div>`;}
