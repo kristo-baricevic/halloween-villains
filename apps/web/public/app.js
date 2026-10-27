@@ -44,7 +44,18 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.querySelec
 window.addEventListener('scroll',closeMoves,true);
 function matchCard(m,i){const winner=state.winners[m.id],open=state.status==='open'&&!state.myName;return `<article class="match"><div class="match-head"><span>Match ${i+1}</span><span>${winner?'Winner decided':state.status==='closed'?'Tied • host decision needed':draft[m.id]?(draft[m.id]===m.myVote?'Submitted pick':'Selected • not submitted'):open?'Choose your villain':'Voting opens soon'}</span></div><div class="pair">${m.participants.map(id=>{const v=villain(id);if(!v)return '';return `<section class="contender"><span class="icon">${icon(id)}</span><h3>${esc(v.name)}</h3><div class="franchise">${esc(v.franchise)}</div>${movePills(v)}<button class="pitch" data-details="${id}">View info</button>${m.counts?`<div class="count">${m.counts[id]||0} vote${m.counts[id]===1?'':'s'}</div>`:''}${winner?`<div class="result">${winner===id?'✦ Advances':'Eliminated'}</div>`:state.myName?`<div class="result">${m.myVote===id?'Your submitted pick':''}</div>`:open?`<button class="pick ${draft[m.id]===id?'selected':''}" aria-pressed="${draft[m.id]===id}" data-vote="${m.id}" data-choice="${id}">${draft[m.id]===id?'✓ Your pick':'Choose this villain'}</button>`:state.host&&state.status==='closed'?`<button class="pick" data-resolve="${m.id}" data-choice="${id}">Choose as winner</button>`:''}</section>`;}).join('')}</div></article>`;}
 function bracket(){return `<div class="bracket">${state.rounds.map((rd,r)=>`<section class="round"><h3>${names[r]}</h3><div class="round-games">${rd.map(m=>`<div class="mini-match">${m.sources.map((src,i)=>{const id=m.participants[i],v=villain(id);let placeholder='Winner of '+(src[1]==='w'?'wildcard '+(Number(src.slice(2))+1):'previous match');return `<button ${id?`data-details="${id}"`:'disabled'} class="mini-player ${state.winners[m.id]===id&&id?'winner':''} ${id?'':'pending'}"><span>${esc(v?.name||placeholder)}</span><span>${m.counts&&id?m.counts[id]||0:''}${state.winners[m.id]===id&&id?' ✓':''}</span></button>`;}).join('')}</div>`).join('')}</div></section>`).join('')}</div>`;}
+function championRain(){
+ const existing=$('#championRain');
+ if(state.status!=='complete'){existing?.remove();return;}
+ if(existing)return;
+ const rain=document.createElement('div');
+ rain.id='championRain';rain.className='champion-rain';rain.setAttribute('aria-hidden','true');
+ const emojis=['🎃','👻','🦇','💀','🕷️','🍬','🍭','🕸️'];
+ for(let i=0;i<32;i++){const drop=document.createElement('span');drop.textContent=emojis[i%emojis.length];rain.append(drop);}
+ document.body.append(rain);
+}
 function render(){
+ championRain();
  closeMoves();
  const rd=state.rounds[state.round];
  $('#stage').innerHTML=state.status==='complete'?'<h2>We have a champion.</h2><p>The votes are in. The crown has found its villain.</p>':`<h2>${names[state.round]}<span class="badge">${{setup:'Not open yet',open:'Voting open',closed:'Voting closed'}[state.status]}</span></h2><p>${state.status==='setup'?'The host is preparing the matchups. Take a look at the contenders while you wait.':state.status==='open'?(state.myName?'Your ballot is submitted. Your picks are final for this round.':'Choose one villain in each matchup, enter your name, then submit your ballot. Picks are final once submitted.'):'Results are in. The host will resolve any ties and start the next round.'}</p>`;
