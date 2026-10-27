@@ -11,16 +11,52 @@
     }
   },
   "rewrites": [
-    {"source": "/api/state", "destination": "/api/index"},
-    {"source": "/api/action", "destination": "/api/index"},
-    {"source": "/healthz", "destination": "/api/index"},
-    {"source": "/host", "destination": "/index.html"}
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/api/login",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/logout",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/state",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/action",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/healthz",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/host",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
-    {"source": "/(.*)", "headers": [
-      {"key": "X-Content-Type-Options", "value": "nosniff"},
-      {"key": "Referrer-Policy", "value": "no-referrer"},
-      {"key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'"}
-    ]}
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-ancestors 'none'"
+        }
+      ]
+    }
   ]
 }

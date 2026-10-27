@@ -47,7 +47,20 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
   server.listen(0,'127.0.0.1');await once(server,'listening');
   const base=`http://127.0.0.1:${server.address().port}`;
   t.after(async()=>{await new Promise(resolve=>server.close(resolve));await tournament.close();rmSync(dataDir,{recursive:true,force:true});});
-  const hostHeaders={Authorization:`Bearer ${tournament.key}`};
+  assert.equal((await fetch(base+'/admin')).status,200);
+  const login=async(password)=>fetch(base+'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});
+  assert.equal((await login('wrong')).status,401);
+  const loggedIn=await login(tournament.key);
+  assert.equal(loggedIn.status,200);
+  const session=loggedIn.headers.getSetCookie().find(c=>c.startsWith('admin='));
+  assert.match(session,/HttpOnly; SameSite=Strict/);
+  const adminCookie=session.split(';')[0];
+  const hostHeaders={Cookie:adminCookie};
+  assert.equal((await (await fetch(base+'/api/state',{headers:hostHeaders})).json()).host,true);
+  for(const cookie of [adminCookie+'tampered','admin=1.invalid']) assert.equal((await (await fetch(base+'/api/state',{headers:{Cookie:cookie}})).json()).host,false);
+  const logout=await fetch(base+'/api/logout',{method:'POST',headers:{'Content-Type':'application/json',Cookie:adminCookie},body:'{}'});
+  assert.match(logout.headers.getSetCookie().find(c=>c.startsWith('admin=')),/Max-Age=0/);
+
   const get=async(headers={})=>{const r=await fetch(base+'/api/state',{headers});return {response:r,state:await r.json()};};
   const post=async(data,headers={})=>{
     if(data.action==='vote')data={action:'submit',name:'Test Voter',revision:initial.state.revision+1,picks:{...Object.fromEntries(initial.state.rounds[0].map(m=>[m.id,m.participants[0]])),[data.match]:data.choice}};
@@ -94,6 +107,11 @@ for(const backend of ['sqlite',...(process.env.TEST_DATABASE_URL?['postgres']:[]
   assert.equal((await post({action:'vote',match:m.id,choice:a},{Cookie:cookie})).status,400);
   assert.equal((await get()).state.winners[m.id],a);
   for(const path of ['/data/host.key','/../host.key','/server.py','/package.json']) assert.equal((await fetch(base+path)).status,404);
+  const closed=(await get(hostHeaders)).state;
+  assert.equal((await post({action:'advance',revision:closed.revision},hostHeaders)).status,200);
+  const advanced=(await get(hostHeaders)).state;
+  assert.equal(advanced.round,1);assert.equal(advanced.status,'open');
+  assert.ok(advanced.rounds[1].every(m=>m.participants.every(Boolean)));
   const malformed=await fetch(base+'/api/action',{method:'POST',headers:{'Content-Type':'application/json'},body:'null'});
   assert.equal(malformed.status,400);
   const reopened=backend==='postgres'?new PostgresTournament({connectionString:process.env.TEST_DATABASE_URL,key:tournament.key}):new Tournament(dataDir);
